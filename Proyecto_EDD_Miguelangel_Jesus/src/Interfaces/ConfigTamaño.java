@@ -15,6 +15,9 @@ public class ConfigTamaño extends javax.swing.JFrame {
      */
     public ConfigTamaño() {
         initComponents();
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -53,7 +56,7 @@ public class ConfigTamaño extends javax.swing.JFrame {
                 exitActionPerformed(evt);
             }
         });
-        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 60, 50));
+        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 60, 50));
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
         jLabel2.setText("Tamaño del Tablero");
@@ -66,6 +69,7 @@ public class ConfigTamaño extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
 
     /**
