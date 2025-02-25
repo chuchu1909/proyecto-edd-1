@@ -4,6 +4,8 @@
  */
 package proyecto_edd_miguelangel_jesus;
 
+import Interfaces.Inicio;
+
 /**
  *
  * @author Miguel
@@ -15,6 +17,7 @@ public class Proyecto_EDD_Miguelangel_Jesus {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Inicio v1 = new Inicio();
     }
     
 }
