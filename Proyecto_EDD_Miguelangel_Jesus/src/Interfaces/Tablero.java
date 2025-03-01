@@ -4,17 +4,110 @@
  */
 package Interfaces;
 
+import ClasesPrincipales.Casilla;
+import EDD.Grafo;
+import EDD.Lista;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Miguel
  */
 public class Tablero extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form Tablero
      */
+    int numFilas = ConfigTamaño.ValorInt;
+
+    int numColumnas = ConfigTamaño.ValorInt;
+    int numMinas = 10;
+    private Lista letras = new Lista();
+    JButton[][] botonesTablero;
+    
     public Tablero() {
         initComponents();
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        cargarControles();
+    }
+    
+    
+    
+    
+    
+    private void cargarControles(){
+        
+        letras.nombrarColumnas();
+        
+        Grafo grafo = new Grafo();
+
+        
+    
+    
+        
+        int posXReferencia=25;
+        int posYReferencia=25;
+        int anchoControl=30;
+        int altoControl=30;
+        
+        botonesTablero = new JButton[numFilas][numColumnas];
+        for (int i = 0; i < botonesTablero.length; i++) {
+            for (int j = 0; j < botonesTablero[i].length; j++) {
+                botonesTablero[i][j]=new JButton();
+                botonesTablero[i][j].setName(i+","+ letras.getValor(j));
+                botonesTablero[i][j].setBorder(null);
+                if (i==0 && j==0){
+                    botonesTablero[i][j].setBounds(posXReferencia, 
+                            posYReferencia, anchoControl, altoControl);
+                    
+                    grafo.insertarCasilla((String) letras.getValor(j), i);
+                    
+                    
+                    
+                }else if (i==0 && j!=0){
+                    botonesTablero[i][j].setBounds(
+                            botonesTablero[i][j-1].getX()+botonesTablero[i][j-1].getWidth(), 
+                            posYReferencia, anchoControl, altoControl);
+                    grafo.insertarCasilla((String) letras.getValor(j), botonesTablero[i][j-1].getX()+botonesTablero[i][j-1].getWidth());
+                }else{
+                    botonesTablero[i][j].setBounds(
+                            botonesTablero[i-1][j].getX(), 
+                            botonesTablero[i-1][j].getY()+botonesTablero[i-1][j].getHeight(), 
+                            anchoControl, altoControl);  
+                    Casilla filasSalto = new Casilla((String) letras.getValor(j),botonesTablero[i-1][j].getX());
+                    grafo.insertarCasilla((String) letras.getValor(j), botonesTablero[i-1][j].getX());
+                }
+                botonesTablero[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        btnClick(e);
+                    }
+
+                });
+                getContentPane().add(botonesTablero[i][j]);
+            }
+        }
+        this.setSize(botonesTablero[numFilas-1][numColumnas-1].getX()+
+                botonesTablero[numFilas-1][numColumnas-1].getWidth()+30,
+                botonesTablero[numFilas-1][numColumnas-1].getY()+
+                botonesTablero[numFilas-1][numColumnas-1].getHeight()+70
+                );
+    }
+    private void btnClick(ActionEvent e) {
+        JButton btn=(JButton)e.getSource();
+        String[] coordenada=btn.getName().split(",");
+        int posFila=Integer.parseInt(coordenada[0]);
+        String posColumna=coordenada[1];
+        JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
+        
+        
+        
     }
 
     /**

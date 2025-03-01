@@ -4,18 +4,29 @@
  */
 package Interfaces;
 
+import javax.swing.JSpinner;
+
 /**
  *
  * @author Miguel
  */
 public class ConfigTamaño extends javax.swing.JFrame {
+    
+    public static int ValorInt;
+    
+   
 
     /**
      * Creates new form ConfigTamaño
      */
     public ConfigTamaño() {
         initComponents();
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,6 +56,11 @@ public class ConfigTamaño extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
 
         continuar.setText("Continuar");
+        continuar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                continuarActionPerformed(evt);
+            }
+        });
         jPanel1.add(continuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 220, -1));
 
         exit.setText("X");
@@ -53,7 +69,7 @@ public class ConfigTamaño extends javax.swing.JFrame {
                 exitActionPerformed(evt);
             }
         });
-        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 60, 50));
+        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 60, 50));
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
         jLabel2.setText("Tamaño del Tablero");
@@ -66,7 +82,15 @@ public class ConfigTamaño extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
+
+    private void continuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarActionPerformed
+        // TODO add your handling code here:
+        ValorInt = (int) valorN.getValue();
+        Tablero v2 = new Tablero();
+        this.dispose();
+    }//GEN-LAST:event_continuarActionPerformed
 
     /**
      * @param args the command line arguments
