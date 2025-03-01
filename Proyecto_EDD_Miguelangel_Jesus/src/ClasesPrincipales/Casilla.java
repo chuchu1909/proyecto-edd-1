@@ -6,6 +6,7 @@ package ClasesPrincipales;
 
 import EDD.Lista;
 import EDD.Nodo;
+import java.util.Random;
 
 /**
  *
@@ -161,4 +162,19 @@ public class Casilla {
         return sb.toString();
     } 
     
+//    public void createMine(int numMines){
+//    Random random= new Random();
+//    int minesBox=0;
+//    while (minesBox<numMines){
+//    int row=random.nextInt(numRow);
+//    int column=random.nextInt(numColumn);
+//    if(!board[row][column].data.isMine()){
+//        board[row][column].data.setMine(true);
+//        numMines++;
+//    }
+//    }if (numMines<=0){
+//    System.out.println("Error");
+//    }
+
 }
+
