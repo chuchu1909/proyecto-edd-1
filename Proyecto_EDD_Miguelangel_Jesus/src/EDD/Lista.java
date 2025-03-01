@@ -379,4 +379,20 @@ public class Lista {
         pFirst = null;
         size = 0;
     }
+    
+    public void nombrarColumnas(){
+        this.InsertarFinal("A");
+        this.InsertarFinal("B");
+        this.InsertarFinal("C");
+        this.InsertarFinal("D");
+        this.InsertarFinal("E");
+        this.InsertarFinal("F");
+        this.InsertarFinal("G");
+        this.InsertarFinal("H");
+        this.InsertarFinal("I");
+        this.InsertarFinal("J");
+    
+    }
+    
+    
 }
