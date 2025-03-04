@@ -80,7 +80,7 @@ public class Tablero extends javax.swing.JFrame {
                             botonesTablero[i-1][j].getX(), 
                             botonesTablero[i-1][j].getY()+botonesTablero[i-1][j].getHeight(), 
                             anchoControl, altoControl);  
-                    Casilla filasSalto = new Casilla((String) letras.getValor(j),botonesTablero[i-1][j].getX());
+                    Casilla filasSalto = new Casilla((String)letras.getValor(j).toString(),botonesTablero[i-1][j].getX());
                     grafo.insertarCasilla((String) letras.getValor(j), botonesTablero[i-1][j].getX());
                 }
                 botonesTablero[i][j].addActionListener(new ActionListener() {

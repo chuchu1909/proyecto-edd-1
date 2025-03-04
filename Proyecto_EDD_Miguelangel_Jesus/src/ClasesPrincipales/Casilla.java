@@ -6,6 +6,7 @@ package ClasesPrincipales;
 
 import EDD.Lista;
 import EDD.Nodo;
+import java.util.Random;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Casilla {
     private boolean estaBarrida;
     private Lista adyacentes;
 
-    public Casilla(String columna, int fila) {
+    public Casilla( String columna,int fila) {
         this.columna = columna;
         this.fila = fila;
         this.mina = false;
@@ -160,5 +161,7 @@ public class Casilla {
         sb.append("\nAdyacentes: ").append(this.imprimirAdy());
         return sb.toString();
     } 
+    
+  
     
 }

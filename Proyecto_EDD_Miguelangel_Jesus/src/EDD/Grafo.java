@@ -53,10 +53,10 @@ public class Grafo {
         return null;
     }
     
-    public void insertarCasilla(String columna, int fila) {
+    public void insertarCasilla(String columna,int fila) {
         String nombreCasilla = columna + fila;
         if (this.buscar(nombreCasilla) == null) {
-            Casilla casilla = new Casilla(columna, fila);
+            Casilla casilla = new Casilla(columna,fila);
             casilla.setNumVertice(this.vertices.getSize());
             this.vertices.InsertarFinal(casilla);
         }
