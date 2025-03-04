@@ -8,9 +8,9 @@ package EDD;
  *
  * @author Miguel
  */
-public class Nodo {
-    private Object dato; //Variable donde se guardará el valor
-     private Nodo pnext; //Variable para enlazar los nodos
+public class Nodo<T> {
+    private T dato; //Variable donde se guardará el valor
+     private Nodo<T> pnext; //Variable para enlazar los nodos
     
     //Constructor vacio
     public Nodo(){
@@ -19,7 +19,7 @@ public class Nodo {
     }
     
     //Constructor de la clase nodo si le paso solo la info
-    public Nodo(Object dato) {
+    public Nodo(T dato) {
         this.dato = dato;
         this.pnext = null;
     }
@@ -29,7 +29,7 @@ public class Nodo {
         return dato;
     }
 
-    public void setDato(Object dato) {
+    public void setDato(T dato) {
         this.dato = dato;
     }
 
