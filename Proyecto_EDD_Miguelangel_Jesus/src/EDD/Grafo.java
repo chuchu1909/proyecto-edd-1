@@ -30,10 +30,6 @@ public class Grafo {
         return this.vertices.getSize();
     }
     
-    public void agregarCasilla(Casilla casilla){
-    
-    }
-    
     public boolean esVacio() {
         return this.vertices.EsVacio();
     }
@@ -66,9 +62,15 @@ public class Grafo {
         if (this.buscar(casilla1) != null && this.buscar(casilla2) != null) {
             Casilla casillaInicio = this.buscar(casilla1);
             Casilla casillaFin = this.buscar(casilla2);
-
-            casillaInicio.getAdyacentes().InsertarFinal(casillaFin);
-            casillaFin.getAdyacentes().InsertarFinal(casillaInicio);
+            
+            if(!casillaInicio.buscarAdy(casilla2)){
+                casillaInicio.agregarAdy(casillaFin);
+            }
+            
+            if(!casillaFin.buscarAdy(casilla1)){
+                casillaFin.agregarAdy(casillaInicio);
+            }
+           
         } else {
             if (this.buscar(casilla1) == null && this.buscar(casilla2) != null) {
                 JOptionPane.showMessageDialog(null, "La estacion de inicio no existe.");
@@ -139,6 +141,18 @@ public class Grafo {
 
             return false;
         }
+    }
+    
+    public int verticesMarcados(){
+        int count = 0;
+        for (int i = 0; i < this.vertices.getSize(); i++) {
+            Casilla casillaActual = (Casilla) this.vertices.getValor(i);
+            if(casillaActual.isEstaMarcada()){
+                count++;
+            }
+        }
+        
+        return count;
     }
 
     public void destruir() {

@@ -4,6 +4,10 @@
  */
 package Interfaces;
 
+import proyecto_edd_miguelangel_jesus.BuscaMina;
+
+
+
 /**
  *
  * @author Miguel
@@ -13,6 +17,7 @@ public class Inicio extends javax.swing.JFrame {
     /**
      * Creates new form Inicio
      */
+    public static BuscaMina buscaMinaApp = new BuscaMina();
     public Inicio() {
         initComponents();
         

@@ -89,29 +89,44 @@ public class Casilla {
     public String getNombre(){
         return this.columna + this.fila;
     }
-    
-    public int cantidadAdy(){
+     public int cantidadAdy() {
         return this.adyacentes.getSize();
     }
-    
-    public int cantidadMinas(){
-        return 1;
+
+    public void agregarAdy(Casilla casilla) {
+        this.adyacentes.InsertarFinal(casilla);
     }
     
-    public void agregarAdy(Casilla casilla){
-    
-    }
-    
-    public boolean buscarAdy(String casilla){
+    public boolean buscarAdy(String casilla) {
         boolean encontrado = false;
+        if (!this.adyacentes.EsVacio()) {
+            for (int i = 0; i < this.adyacentes.getSize(); i++) {
+                Casilla casillaActual = (Casilla) this.adyacentes.getValor(i);
+                if (casillaActual.getNombre().equalsIgnoreCase(casilla)) {
+                    encontrado = true;
+                    break;
+                }
+            }
+        }
         return encontrado;
     }
-    
-    public String imprimirAdy(){
+
+    public int cantidadMinasAdy() {
+        int count = 0;
+        for (int i = 0; i < this.adyacentes.getSize(); i++) {
+            Casilla casillaActual = (Casilla) this.adyacentes.getValor(i);
+            if(casillaActual.mina){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public String imprimirAdy() {
         if (!this.adyacentes.EsVacio()) {
             Nodo aux = this.adyacentes.getpFirst();
             String adyacentesStr = "";
-            while (aux.getPnext()!= null) {
+            while (aux.getPnext() != null) {
                 Casilla casillaActual = (Casilla) aux.getDato();
                 adyacentesStr += casillaActual.getNombre() + " ---> ";
 
@@ -125,28 +140,28 @@ public class Casilla {
 
         return "No tiene adyacentes";
     }
-    
-    public String marcadaStr(){
-        if (this.estaMarcada){
+
+    public String marcadaStr() {
+        if (this.estaMarcada) {
             return "Si";
         }
-        
+
         return "No";
     }
-    
-    public String minaStr(){
-        if (this.mina){
+
+    public String minaStr() {
+        if (this.mina) {
             return "Si";
         }
-        
+
         return "No";
     }
-    
-    public String barridaStr(){
-        if (this.estaBarrida){
+
+    public String barridaStr() {
+        if (this.estaBarrida) {
             return "Si";
         }
-        
+
         return "No";
     }
 

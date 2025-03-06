@@ -4,6 +4,9 @@
  */
 package Interfaces;
 
+import Funciones.Helpers;
+import static Interfaces.Inicio.buscaMinaApp;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 
 /**
@@ -12,7 +15,7 @@ import javax.swing.JSpinner;
  */
 public class ConfigTamaño extends javax.swing.JFrame {
     
-    public static int ValorInt;
+    
     
    
 
@@ -87,7 +90,37 @@ public class ConfigTamaño extends javax.swing.JFrame {
 
     private void continuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarActionPerformed
         // TODO add your handling code here:
-        ValorInt = (int) valorN.getValue();
+        int valorInt = (int) valorN.getValue();
+        buscaMinaApp.generarGrafoTablero(valorInt);
+        buscaMinaApp.setN(valorInt);
+        // Solicitar al usuario la cantidad de minas
+        Helpers helper = new Helpers();
+        String inputMinas = JOptionPane.showInputDialog("Ingrese la cantidad de minas (1 - " + (valorInt * valorInt) + "):");
+
+        if (inputMinas == null) {
+            JOptionPane.showMessageDialog(null, "Operación cancelada. No se generará el tablero.");
+            return; // Sale de la función si el usuario cancela
+        }
+
+        int cantidadMinas = helper.convertirNumero(inputMinas);
+
+// Validar el número ingresado
+        while (cantidadMinas < 1 || cantidadMinas > (valorInt * valorInt)) {
+            JOptionPane.showMessageDialog(null, "Número inválido. Ingrese un valor entre 1 y " + (valorInt * valorInt) + ".");
+            inputMinas = JOptionPane.showInputDialog("Ingrese la cantidad de minas (1 - " + (valorInt * valorInt) + "):");
+
+            if (inputMinas == null) {
+                JOptionPane.showMessageDialog(null, "Operación cancelada. No se generará el tablero.");
+                return;
+            }
+
+            cantidadMinas = helper.convertirNumero(inputMinas);
+        }
+
+// Generar las minas
+        buscaMinaApp.setCantidadMinas(cantidadMinas);
+        buscaMinaApp.generarMinas(cantidadMinas);
+
         Tablero v2 = new Tablero();
         this.dispose();
     }//GEN-LAST:event_continuarActionPerformed
