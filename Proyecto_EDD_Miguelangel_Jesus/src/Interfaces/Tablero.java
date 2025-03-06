@@ -7,8 +7,11 @@ package Interfaces;
 import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
+import static Interfaces.Inicio.buscaMinaApp;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,107 +26,196 @@ public class Tablero extends javax.swing.JFrame {
     /**
      * Creates new form Tablero
      */
-    int numFilas = ConfigTamaño.ValorInt;
-    private JLabel coordenadasLabel;
-    int numColumnas = ConfigTamaño.ValorInt;
-    int numMinas = 10;
+    int numFilas = buscaMinaApp.getN();
+    int numColumnas = buscaMinaApp.getN();
+
+    int numMinas = buscaMinaApp.getCantidadMinas();
     private Lista letras = new Lista();
     JButton[][] botonesTablero;
-    JButton botonGuardar;
-    
+
+    boolean bandera = false;
+    int numBanderasMinas = 0;
+
+    private JLabel lblModo; // Label para mostrar el modo actual
+
     public Tablero() {
-        coordenadasLabel=new JLabel("Coordenadas");
+        //coordenadasLabel=new JLabel("Coordenadas");
         initComponents();
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         cargarControles();
-    }
-    
-    //Pasa el tablero de Botones a un String:Para esto necesita crear un objeto
-    //de tipo stringtablero
-    public String stringTablero(){
-    StringBuilder stringtablero=new StringBuilder();
-    for (int i = 0; i < numFilas; i++) {
-            for (int j = 0; j < numColumnas; j++) {
-                stringtablero.append(botonesTablero[i][j].getText()).append(" ");
-            }
-            stringtablero.append("\n");
-        } return stringtablero.toString();
-    }
-    
-    
-    private void cargarControles(){
-        
-        letras.nombrarColumnas();
-        
-        Grafo grafo = new Grafo();
+        System.out.println(buscaMinaApp.getGrafo());
+        lblModo = new JLabel("Modo: Barrer");
+        lblModo.setBounds(25, 10, 200, 30); // Posición y tamaño
+        getContentPane().add(lblModo);
 
-        
-    
-    
-        
-        int posXReferencia=25;
-        int posYReferencia=25;
-        int anchoControl=30;
-        int altoControl=30;
-        
+    }
+
+    private void cargarControles() {
+        letras.nombrarColumnas();
+
+        int anchoControl = 30;
+        int altoControl = 30;
+        int espacio = 5; // Espaciado entre botones
+
+        int anchoTablero = numColumnas * (anchoControl + espacio) - espacio;
+        int altoTablero = numFilas * (altoControl + espacio) - espacio;
+
+        // Centrar el tablero en la ventana
+        int posXReferencia = (getWidth() - anchoTablero) / 2;
+        int posYReferencia = 40; // Espacio desde la parte superior
+
         botonesTablero = new JButton[numFilas][numColumnas];
         for (int i = 0; i < botonesTablero.length; i++) {
             for (int j = 0; j < botonesTablero[i].length; j++) {
-                botonesTablero[i][j]=new JButton();
-                botonesTablero[i][j].setName(i+","+ letras.getValor(j));
-                botonesTablero[i][j].setBorder(null);
-                if (i==0 && j==0){
-                    botonesTablero[i][j].setBounds(posXReferencia, 
-                            posYReferencia, anchoControl, altoControl);
-                    
-                    grafo.insertarCasilla((String) letras.getValor(j), i);
-                    
-                    
-                    
-                }else if (i==0 && j!=0){
+                botonesTablero[i][j] = new JButton();
+                botonesTablero[i][j].setName(i + "," + letras.getValor(j));
+
+                botonesTablero[i][j].setBackground(Color.GRAY);
+                botonesTablero[i][j].setForeground(Color.BLACK);
+                botonesTablero[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                if (i == 0 && j == 0) {
+                    botonesTablero[i][j].setBounds(posXReferencia, posYReferencia, anchoControl, altoControl);
+                } else if (i == 0 && j != 0) {
                     botonesTablero[i][j].setBounds(
-                            botonesTablero[i][j-1].getX()+botonesTablero[i][j-1].getWidth(), 
+                            botonesTablero[i][j - 1].getX() + botonesTablero[i][j - 1].getWidth() + espacio,
                             posYReferencia, anchoControl, altoControl);
-                    grafo.insertarCasilla((String) letras.getValor(j), botonesTablero[i][j-1].getX()+botonesTablero[i][j-1].getWidth());
-                }else{
+                } else {
                     botonesTablero[i][j].setBounds(
-                            botonesTablero[i-1][j].getX(), 
-                            botonesTablero[i-1][j].getY()+botonesTablero[i-1][j].getHeight(), 
-                            anchoControl, altoControl);  
-                    Casilla filasSalto = new Casilla((String)letras.getValor(j).toString(),botonesTablero[i-1][j].getX());
-                    grafo.insertarCasilla((String) letras.getValor(j), botonesTablero[i-1][j].getX());
+                            botonesTablero[i - 1][j].getX(),
+                            botonesTablero[i - 1][j].getY() + botonesTablero[i - 1][j].getHeight() + espacio,
+                            anchoControl, altoControl);
                 }
+
                 botonesTablero[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         btnClick(e);
                     }
-
                 });
+
                 getContentPane().add(botonesTablero[i][j]);
             }
         }
-        this.setSize(botonesTablero[numFilas-1][numColumnas-1].getX()+
-                botonesTablero[numFilas-1][numColumnas-1].getWidth()+30,
-                botonesTablero[numFilas-1][numColumnas-1].getY()+
-                botonesTablero[numFilas-1][numColumnas-1].getHeight()+70
-                );
+
+        // Ajustar tamaño de la ventana para los botones adicionales
+        int alturaExtra = 100; // Espacio extra para los botones
+        int nuevaAltura = posYReferencia + altoTablero + alturaExtra;
+        int nuevaAncho = Math.max(getWidth(), anchoTablero + 50);
+
+        this.setSize(nuevaAncho, nuevaAltura);
+
+        // Agregar botones extras
+        agregarBotonesExtras();
     }
-    
 
     private void btnClick(ActionEvent e) {
-        JButton btn=(JButton)e.getSource();
-        String[] coordenada=btn.getName().split(",");
-        int posFila=Integer.parseInt(coordenada[0]);
-        String posColumna=coordenada[1];
-        JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
-        String r=botonesTablero.toString();
-        //guardarJuego(r);
-        //coordenadasLabel.setText("Fila:"+posFila+"Columna:"+posColumna);
-        
-        
+        JButton btn = (JButton) e.getSource();
+        String[] coordenada = btn.getName().split(",");
+        int posFila = Integer.parseInt(coordenada[0]);
+        String posColumna = coordenada[1];
+        String nombreCasilla = posColumna + posFila; // Nombre del vértice en el grafo
+
+        // Buscar la casilla en el grafo
+        Casilla casilla = buscaMinaApp.getGrafo().buscar(nombreCasilla);
+
+        if (casilla != null) {
+            if (!bandera) {
+                if (casilla.isMina()) {
+                    btn.setText("💣");
+                    JOptionPane.showMessageDialog(null, "Haz Perdido");
+                    accionSalir();
+                } else {
+                    btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
+                }
+            } else {
+                if (buscaMinaApp.getGrafo().verticesMarcados() < this.numMinas) {
+                    if (!casilla.isEstaMarcada()) {
+                        btn.setBackground(Color.RED);
+                        casilla.setEstaMarcada(true);
+                        if (casilla.isMina()) {
+                            numBanderasMinas++;
+                        }
+
+                        if (numBanderasMinas == buscaMinaApp.getCantidadMinas()) {
+                            int confirmacion = JOptionPane.showConfirmDialog(this, "Haz Ganado", "Volver al Menu", JOptionPane.YES_NO_OPTION);
+                            if (confirmacion == JOptionPane.YES_OPTION) {
+                                Inicio inicio = new Inicio();
+                                this.dispose();
+                            }
+                        }
+                    } else {
+                        btn.setBackground(Color.GRAY);
+                        casilla.setEstaMarcada(false);
+                        if (casilla.isMina()) {
+                            numBanderasMinas--;
+                        }
+                    }
+                } else {
+                    if (casilla.isEstaMarcada()) {
+                        btn.setBackground(Color.GRAY);
+                        casilla.setEstaMarcada(false);
+                        if (casilla.isMina()) {
+                            numBanderasMinas--;
+                        }
+
+                    }
+                }
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Error: No se encontró la casilla en el grafo.");
+        }
+    }
+
+    private void agregarBotonesExtras() {
+        int posXBotones = 25;
+        int posYBotones = botonesTablero[numFilas - 1][0].getY() + botonesTablero[numFilas - 1][0].getHeight() + 20;
+        int anchoBoton = 100;
+        int altoBoton = 30;
+        int espacioBoton = 20;
+
+        // Botón Guardar
+        JButton btnGuardar = new JButton("Guardar");
+        btnGuardar.setBounds(posXBotones, posYBotones, anchoBoton, altoBoton);
+        btnGuardar.addActionListener(e -> accionGuardar());
+        getContentPane().add(btnGuardar);
+
+        // Botón Salir
+        JButton btnSalir = new JButton("Salir");
+        btnSalir.setBounds(posXBotones + anchoBoton + espacioBoton, posYBotones, anchoBoton, altoBoton);
+        btnSalir.addActionListener(e -> accionSalir());
+        getContentPane().add(btnSalir);
+
+        // Botón Marcar
+        JButton btnMarcar = new JButton("Marcar");
+        btnMarcar.setBounds(posXBotones + 2 * (anchoBoton + espacioBoton), posYBotones, anchoBoton, altoBoton);
+        btnMarcar.addActionListener(e -> accionMarcar());
+        getContentPane().add(btnMarcar);
+    }
+
+    // Acción para el botón "Guardar"
+    private void accionGuardar() {
+        JOptionPane.showMessageDialog(this, "El juego ha sido guardado correctamente.");
+    }
+
+// Acción para el botón "Salir"
+    private void accionSalir() {
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            Inicio inicio = new Inicio();
+            this.dispose();
+        }
+    }
+
+// Acción para el botón "Marcar"
+    private void accionMarcar() {
+
+        bandera = !bandera;
+        lblModo.setText(bandera ? "Modo: Marcar" : "Modo: Barrer"); // Actualiza el label
+
     }
    
 
