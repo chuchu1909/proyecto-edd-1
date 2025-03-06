@@ -10,8 +10,9 @@ import EDD.Lista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
+import Funciones.GuardarCSV;
 /**
  *
  * @author Miguel
@@ -23,13 +24,15 @@ public class Tablero extends javax.swing.JFrame {
      * Creates new form Tablero
      */
     int numFilas = ConfigTamaño.ValorInt;
-
+    private JLabel coordenadasLabel;
     int numColumnas = ConfigTamaño.ValorInt;
     int numMinas = 10;
     private Lista letras = new Lista();
     JButton[][] botonesTablero;
+    JButton botonGuardar;
     
     public Tablero() {
+        coordenadasLabel=new JLabel("Coordenadas");
         initComponents();
         this.setVisible(true);
         this.setResizable(false);
@@ -37,8 +40,17 @@ public class Tablero extends javax.swing.JFrame {
         cargarControles();
     }
     
-    
-    
+    //Pasa el tablero de Botones a un String:Para esto necesita crear un objeto
+    //de tipo stringtablero
+    public String stringTablero(){
+    StringBuilder stringtablero=new StringBuilder();
+    for (int i = 0; i < numFilas; i++) {
+            for (int j = 0; j < numColumnas; j++) {
+                stringtablero.append(botonesTablero[i][j].getText()).append(" ");
+            }
+            stringtablero.append("\n");
+        } return stringtablero.toString();
+    }
     
     
     private void cargarControles(){
@@ -99,16 +111,23 @@ public class Tablero extends javax.swing.JFrame {
                 botonesTablero[numFilas-1][numColumnas-1].getHeight()+70
                 );
     }
+    
+
     private void btnClick(ActionEvent e) {
         JButton btn=(JButton)e.getSource();
         String[] coordenada=btn.getName().split(",");
         int posFila=Integer.parseInt(coordenada[0]);
         String posColumna=coordenada[1];
         JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
-        
+        String r=botonesTablero.toString();
+        //guardarJuego(r);
+        //coordenadasLabel.setText("Fila:"+posFila+"Columna:"+posColumna);
         
         
     }
+   
+
+         
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -119,17 +138,45 @@ public class Tablero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField2 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
+
+        jTextField2.setText("jTextField2");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(393, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(344, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
 
         pack();
@@ -164,6 +211,7 @@ public class Tablero extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Tablero().setVisible(true);
             }
@@ -171,5 +219,12 @@ public class Tablero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
