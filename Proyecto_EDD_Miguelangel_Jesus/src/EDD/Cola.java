@@ -26,7 +26,7 @@ public class Cola<T> {
     
     //Agrega un elemento a la cola
     public void Encolar(T dato){
-        Nodo <T> pNew = new Nodo();
+        Nodo <T> pNew = new Nodo(dato);
         if(esVacio()){
             pFront = pNew;
             pBack= pNew;

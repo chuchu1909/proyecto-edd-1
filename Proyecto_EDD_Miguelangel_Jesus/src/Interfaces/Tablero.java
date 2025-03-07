@@ -7,6 +7,7 @@ package Interfaces;
 import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
+import Funciones.BFS;
 import static Interfaces.Inicio.buscaMinaApp;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,7 @@ public class Tablero extends javax.swing.JFrame {
     int numMinas = buscaMinaApp.getCantidadMinas();
     private Lista letras = new Lista();
     JButton[][] botonesTablero;
+    JButton[][] btnBarrido;
 
     boolean bandera = false;
     int numBanderasMinas = 0;
@@ -109,8 +111,45 @@ public class Tablero extends javax.swing.JFrame {
 
         // Agregar botones extras
         agregarBotonesExtras();
+       
     }
+    private void actualizarTablero(){
+//        letras.nombrarColumnas();
+//        int anchoControl = 30;
+//        int altoControl = 30;
+//        int espacio = 5; // Espaciado entre botones
+//
+//        int anchoTablero = numColumnas * (anchoControl + espacio) - espacio;
+//        int altoTablero = numFilas * (altoControl + espacio) - espacio;
+//
+//        // Centrar el tablero en la ventana
+//        int posXReferencia = (getWidth() - anchoTablero) / 2;
+//        int posYReferencia = 40; // Espacio desde la parte superior
 
+//        botonesTablero = new JButton[numFilas][numColumnas];
+        for (int i = 0; i <numFilas ; i++) {
+            for (int j = 0; j < numColumnas; j++) {
+                //botonesTablero[i][j]=new JButton();
+                String nombreCasilla=(char)('A'+j)+String.valueOf(i);
+                Casilla casilla = buscaMinaApp.getGrafo().buscar(nombreCasilla);
+                if(casilla!=null){
+                if(casilla.estaRevelada()){
+                    if(casilla.isMina()){
+                        botonesTablero[i][j].setText("💣");
+                    }else{
+                        int minasAdyacentes=casilla.cantidadMinasAdy();
+                        if(minasAdyacentes>0 ){
+                        botonesTablero[i][j].setText(String.valueOf(minasAdyacentes));
+                        }else{
+                        botonesTablero[i][j].setText("");
+                        }botonesTablero[i][j].setBackground(Color.BLUE);
+                        }
+                    } 
+                }
+            }
+        }
+    }
+    
     private void btnClick(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         String[] coordenada = btn.getName().split(",");
@@ -128,7 +167,13 @@ public class Tablero extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Haz Perdido");
                     accionSalir();
                 } else {
-                    btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
+
+                    Grafo g=buscaMinaApp.getGrafo();
+                    BFS bfs=new BFS(g);
+                    bfs.Barrer(posFila, posColumna);
+                    actualizarTablero();
+                    
+                    //btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
                 }
             } else {
                 if (buscaMinaApp.getGrafo().verticesMarcados() < this.numMinas) {
@@ -169,7 +214,7 @@ public class Tablero extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Error: No se encontró la casilla en el grafo.");
         }
     }
-
+    //Agrega botones extra para el usuario,
     private void agregarBotonesExtras() {
         int posXBotones = 25;
         int posYBotones = botonesTablero[numFilas - 1][0].getY() + botonesTablero[numFilas - 1][0].getHeight() + 20;

@@ -15,7 +15,7 @@ import java.util.Random;
 public class BuscaMina {
     private int n;
     private int cantidadMinas;
-    private Grafo grafo;
+    public Grafo grafo;
 
     public BuscaMina() {
         this.n = 0;
