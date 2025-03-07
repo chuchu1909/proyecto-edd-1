@@ -64,24 +64,37 @@ public class  BFS {
             Casilla casillaActual=cola.Desencolar();
             int filaActual=casillaActual.getFila();
             int columnaActual=casillaActual.getColumna().charAt(0)-'A';
-            visitado[filaActual][columnaActual]=true;
-            
-            for (int i=0;i<8;i++){
-                int nuevaFila=filaActual+movFila[i];
-                int nuevaColumna=columnaActual+movColumnas[i];
-                //TODO:verificar si la casilla esta dentro de los limites
-                String nombreVecino=(char)('A'+nuevaColumna)+
-                String.valueOf(nuevaFila);
+            if(!visitado[filaActual][columnaActual]){
+                visitado[filaActual][columnaActual]=true;
+                casillaActual.Revelar();
+                int numMinasCercanas=casillaActual.cantidadMinasAdy();
+                //Detiene la funcion si hay un pista
+                if(numMinasCercanas>0){
+                    continue;
+                }
 
-                Casilla casillaVecina=grafo.buscar(nombreVecino);
+                for (int i=0;i<8;i++){
+                    int nuevaFila=filaActual+movFila[i];
+                    int nuevaColumna=columnaActual+movColumnas[i];
 
-                if(casillaVecina!=null && !visitado[nuevaFila][nuevaColumna]){
-                    int numMinascercanas= casillaVecina.cantidadMinasAdy();
-                    if(!casillaVecina.isMina() && numMinascercanas==0){
-                        cola.Encolar(casillaVecina);
-                        visitado[nuevaFila][nuevaColumna]=true;
-                        if(!casillaVecina.estaRevelada()){
-                           casillaVecina.Revelar();
+                    //Verifica que la casilla se encuentre dentro de los limites 
+                    if(nuevaFila>=0 && nuevaFila<filas){
+                        if (nuevaColumna>=0 && nuevaColumna<numeroColumnas){
+                            String nombreVecino=(char)('A'+nuevaColumna)+
+                            String.valueOf(nuevaFila);
+
+                            Casilla casillaVecina=grafo.buscar(nombreVecino);
+
+                            if(casillaVecina!=null && !visitado[nuevaFila][nuevaColumna]){
+                                int numMinascercanas= casillaVecina.cantidadMinasAdy();
+                                if(!casillaVecina.isMina() && numMinascercanas==0){
+                                    cola.Encolar(casillaVecina);
+                                    //visitado[nuevaFila][nuevaColumna]=true;
+//                                    if(!casillaVecina.estaRevelada()){
+//                                       casillaVecina.Revelar();
+//                                    }
+                                }
+                            }
                         }
                     }
                 }

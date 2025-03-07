@@ -117,7 +117,7 @@ public class Casilla {
         int count = 0;
         for (int i = 0; i < this.adyacentes.getSize(); i++) {
             Casilla casillaActual = (Casilla) this.adyacentes.getValor(i);
-            if(casillaActual.mina){
+            if(casillaActual.isMina()){
                 count++;
             }
         }

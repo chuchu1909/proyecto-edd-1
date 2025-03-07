@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import Funciones.GuardarCSV;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author Miguel
@@ -114,39 +115,62 @@ public class Tablero extends javax.swing.JFrame {
        
     }
     private void actualizarTablero(){
-//        letras.nombrarColumnas();
-//        int anchoControl = 30;
-//        int altoControl = 30;
-//        int espacio = 5; // Espaciado entre botones
-//
-//        int anchoTablero = numColumnas * (anchoControl + espacio) - espacio;
-//        int altoTablero = numFilas * (altoControl + espacio) - espacio;
-//
-//        // Centrar el tablero en la ventana
-//        int posXReferencia = (getWidth() - anchoTablero) / 2;
-//        int posYReferencia = 40; // Espacio desde la parte superior
 
-//        botonesTablero = new JButton[numFilas][numColumnas];
         for (int i = 0; i <numFilas ; i++) {
             for (int j = 0; j < numColumnas; j++) {
-                //botonesTablero[i][j]=new JButton();
+                
                 String nombreCasilla=(char)('A'+j)+String.valueOf(i);
                 Casilla casilla = buscaMinaApp.getGrafo().buscar(nombreCasilla);
+                final int fi=i;
+                final int fj=j;
                 if(casilla!=null){
                 if(casilla.estaRevelada()){
                     if(casilla.isMina()){
-                        botonesTablero[i][j].setText("💣");
-                    }else{
+                        SwingUtilities.invokeLater(new Runnable(){
+                              @Override
+                              public void run(){    
+                        botonesTablero[fi][fj].setText("💣");
+                        botonesTablero[fi][fj].setBackground(Color.RED);
+                         //estas funciones sirven para actualizar la interfaz 
+                        botonesTablero[fi][fj].revalidate();
+                        botonesTablero[fi][fj].repaint();      
+                              }
+                    });}else{
                         int minasAdyacentes=casilla.cantidadMinasAdy();
+                            SwingUtilities.invokeLater(new Runnable(){
+                              @Override
+                              public void run(){
                         if(minasAdyacentes>0 ){
-                        botonesTablero[i][j].setText(String.valueOf(minasAdyacentes));
-                        }else{
-                        botonesTablero[i][j].setText("");
-                        }botonesTablero[i][j].setBackground(Color.BLUE);
+                            botonesTablero[fi][fj].setText(String.valueOf(minasAdyacentes));
+                            botonesTablero[fi][fj].setBackground(Color.YELLOW);}
+                        else{
+                            botonesTablero[fi][fj].setText("");
+                            botonesTablero[fi][fj].setBackground(Color.BLUE);
+                            }
+                        //Desabilita el boton si la casilla ya fue revelada
+                        botonesTablero[fi][fj].setEnabled(false);
+                        //estas funciones sirven para actualizar la interfaz 
+                        botonesTablero[fi][fj].revalidate();
+                        botonesTablero[fi][fj].repaint();}
+                              });
+           
                         }
-                    } 
+                    }
+                    
+                }else{
+                SwingUtilities.invokeLater(new Runnable(){
+                @Override
+                public void run(){
+                botonesTablero[fi][fj].setText("");
+                botonesTablero[fi][fj].setBackground(Color.GRAY);
+                botonesTablero[fi][fj].setEnabled(true);
+                 //estas funciones sirven para actualizar la interfaz 
+                botonesTablero[fi][fj].revalidate();
+                botonesTablero[fi][fj].repaint();}
                 }
+                );
             }
+        }
         }
     }
     
