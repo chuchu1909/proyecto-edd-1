@@ -7,12 +7,15 @@ package Interfaces;
 import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
+import Funciones.GuardarCSV;
 import static Interfaces.Inicio.buscaMinaApp;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -197,7 +200,27 @@ public class Tablero extends javax.swing.JFrame {
 
     // Acción para el botón "Guardar"
     private void accionGuardar() {
-        JOptionPane.showMessageDialog(this, "El juego ha sido guardado correctamente.");
+        JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
+    fileChooser.setAcceptAllFileFilterUsed(false);
+    fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv")); // Filtrar solo archivos .csv
+
+    int seleccion = fileChooser.showSaveDialog(this);
+    
+    if (seleccion == JFileChooser.APPROVE_OPTION) {
+        // Obtener el archivo seleccionado por el usuario
+        File archivo = fileChooser.getSelectedFile();
+        
+        // Si el archivo no tiene la extensión ".csv", agregarla automáticamente
+        if (!archivo.getName().endsWith(".csv")) {
+            archivo = new File(archivo.getAbsolutePath() + ".csv");
+        }
+
+        // Llamar a la función de guardado pasándole el archivo elegido
+        GuardarCSV.guardarPartida(botonesTablero, archivo);
+    }
+        
+    
     }
 
 // Acción para el botón "Salir"
