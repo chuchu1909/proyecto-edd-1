@@ -105,4 +105,11 @@ public class BuscaMina {
         }
     }
     
+    public void resetearMinas(){
+        this.grafo = new Grafo();
+        this.cantidadMinas = 0;
+        this.n = 0;
+    
+    }
+    
 }
