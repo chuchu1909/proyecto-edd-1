@@ -81,6 +81,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
         // TODO add your handling code here:
+        buscaMinaApp.resetearMinas();
         ConfigTamaño v1 = new ConfigTamaño();
         this.dispose();
     }//GEN-LAST:event_inicioActionPerformed
