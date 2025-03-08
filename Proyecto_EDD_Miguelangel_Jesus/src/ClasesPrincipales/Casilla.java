@@ -17,6 +17,7 @@ public class Casilla {
     private int fila;
     private boolean mina;
     private boolean estaMarcada;
+    private boolean revelada;
     private boolean estaBarrida;
     private Lista adyacentes;
 
