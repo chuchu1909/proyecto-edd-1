@@ -36,6 +36,7 @@ public class Tablero extends javax.swing.JFrame {
     int numMinas = buscaMinaApp.getCantidadMinas();
     private Lista letras = new Lista();
     JButton[][] botonesTablero;
+    JButton[][] btnBarrido;
 
     boolean bandera = false;
     int numBanderasMinas = 0;
