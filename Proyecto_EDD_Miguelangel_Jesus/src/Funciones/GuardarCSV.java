@@ -21,7 +21,7 @@ public class GuardarCSV {
     public static void guardarPartida(JButton[][] botonesTablero, File archivo) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
             // Escribir las cabeceras del archivo CSV
-            writer.write("Fila,Columna,EsMina,CantidadMinasAdyacentes,MarcadaConBandera\n");
+            writer.write("Fila,Columna,EsMina,CantidadMinasAdyacentes,MarcadaConBandera,EstaRevelada\n");
 
             // Recorrer el tablero de botones
             for (int i = 0; i < botonesTablero.length; i++) {
@@ -41,9 +41,10 @@ public class GuardarCSV {
                         boolean esMina = casilla.isMina();
                         int cantidadMinasAdyacentes = casilla.cantidadMinasAdy();
                         boolean estaMarcada = casilla.isEstaMarcada();
+                        boolean estaRevelada = casilla.estaRevelada();  // Nueva variable para saber si está revelada
 
                         // Escribir la fila de datos en el archivo CSV
-                        writer.write(fila + "," + columna + "," + esMina + "," + cantidadMinasAdyacentes + "," + estaMarcada + "\n");
+                        writer.write(fila + "," + columna + "," + esMina + "," + cantidadMinasAdyacentes + "," + estaMarcada + "," + estaRevelada + "\n");
                     }
                 }
             }
@@ -55,5 +56,6 @@ public class GuardarCSV {
             System.out.println("Error al guardar la partida");
         }
     }
-
 }
+
+

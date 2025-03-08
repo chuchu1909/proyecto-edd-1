@@ -165,9 +165,12 @@ public class Casilla {
 
         return "No";
     }
-    public void Revelar(){
-        revelada=true;
+    
+
+    public void revelar() {
+        this.revelada = true;
     }
+   
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
