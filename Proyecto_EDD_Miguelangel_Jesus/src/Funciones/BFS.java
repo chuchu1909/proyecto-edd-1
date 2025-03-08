@@ -17,14 +17,18 @@ public class  BFS {
     private static boolean visitado [][];
     private Cola<Casilla> cola;
     private int movFila [];
+    private int movColumnas[];
     private Grafo grafo;
 
+    //Clase constructor de BFS
     public BFS(Grafo grafo){
         this.grafo=grafo;
         this.visitado=new boolean[grafo.cantidadVertices()][grafo.cantidadVertices()];
         this.cola=new Cola<>();
     }
     
+    /*m&eacutetodo de convertir las columnas a numeros.Las columnas estan
+    letras*/
     public  int intColumnas(String columna){
         return (columna.toUpperCase().charAt(0))-'A';
     }

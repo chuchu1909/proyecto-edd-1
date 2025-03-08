@@ -96,14 +96,15 @@ public class ConfigTamaño extends javax.swing.JFrame {
         // Solicitar al usuario la cantidad de minas
         Helpers helper = new Helpers();
         String inputMinas = JOptionPane.showInputDialog("Ingrese la cantidad de minas (1 - " + (valorInt * valorInt) + "):");
-
+        int catidadMinas=0;
         if (inputMinas == null) {
             JOptionPane.showMessageDialog(null, "Operación cancelada. No se generará el tablero.");
             return; // Sale de la función si el usuario cancela
         }
-
+        
         int cantidadMinas = helper.convertirNumero(inputMinas);
-
+        
+        
 // Validar el número ingresado
         while (cantidadMinas < 1 || cantidadMinas > (valorInt * valorInt)) {
             JOptionPane.showMessageDialog(null, "Número inválido. Ingrese un valor entre 1 y " + (valorInt * valorInt) + ".");
@@ -114,7 +115,7 @@ public class ConfigTamaño extends javax.swing.JFrame {
                 return;
             }
 
-            cantidadMinas = helper.convertirNumero(inputMinas);
+           cantidadMinas = helper.convertirNumero(inputMinas);
         }
 
 // Generar las minas
