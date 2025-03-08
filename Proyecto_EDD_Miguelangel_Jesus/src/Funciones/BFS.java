@@ -54,10 +54,12 @@ public class  BFS {
         if(casillaInicio !=null){
             if(casillaInicio.isMina()==true){
                System.out.println("Perdiste");
+               return;
            }
             cola.Encolar(casillaInicio);}
         else{
             System.out.println("Casilla de inicio no exite");
+            return;
         }
     
         while(!cola.esVacio()){
@@ -66,8 +68,8 @@ public class  BFS {
             int columnaActual=casillaActual.getColumna().charAt(0)-'A';
             if(!visitado[filaActual][columnaActual]){
                 visitado[filaActual][columnaActual]=true;
-                casillaActual.Revelar();
                 int numMinasCercanas=casillaActual.cantidadMinasAdy();
+                casillaActual.Revelar();              
                 //Detiene la funcion si hay un pista
                 if(numMinasCercanas>0){
                     continue;
