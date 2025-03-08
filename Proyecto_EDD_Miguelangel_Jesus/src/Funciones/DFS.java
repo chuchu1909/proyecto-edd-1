@@ -35,7 +35,7 @@ public class DFS {
 
     private void dfsRecursivo(Casilla casilla, Set<Casilla> visitados) {
         visitados.add(casilla);
-        casilla.Revelar();
+        casilla.revelar();
         
         int numMinasCercanas=casilla.cantidadMinasAdy();
         if(numMinasCercanas>0 || casilla.isMina()){

@@ -66,7 +66,7 @@ public class BFS {
             int columnaActual=casillaActual.getColumna().charAt(0)-'A';
             if(!visitado[filaActual][columnaActual]){
                 visitado[filaActual][columnaActual]=true;
-                casillaActual.Revelar();
+                casillaActual.revelar();
                 int numMinasCercanas=casillaActual.cantidadMinasAdy();
                 //Detiene la funcion si hay un pista
                 if(numMinasCercanas>0){

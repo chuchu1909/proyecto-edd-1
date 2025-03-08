@@ -394,5 +394,14 @@ public class Lista {
     
     }
     
-    
+    public Object get(int index){    
+        if(index>=0 && index< size){
+            Nodo aux=pFirst;
+            for(int i=0;i<index;i++){
+            aux=aux.getPnext();
+            }
+        return aux.getDato();
+        }else{
+            return null;
+        }}
 }
