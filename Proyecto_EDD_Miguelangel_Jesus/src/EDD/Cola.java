@@ -9,9 +9,9 @@ package EDD;
  * @author Miguel
  */
 public class Cola<T> {
-    private Nodo<T> pFront; //nodo apuntador al primero
+    private Nodo pFront; //nodo apuntador al primero
     private int size; //tamaño de la lista
-    private Nodo <T> pBack;
+    private Nodo pBack;
     
     public Cola() {
         this.pFront = null;
@@ -26,7 +26,7 @@ public class Cola<T> {
     
     //Agrega un elemento a la cola
     public void Encolar(T dato){
-        Nodo <T> pNew = new Nodo(dato);
+        Nodo  pNew = new Nodo(dato);
         if(esVacio()){
             pFront = pNew;
             pBack= pNew;

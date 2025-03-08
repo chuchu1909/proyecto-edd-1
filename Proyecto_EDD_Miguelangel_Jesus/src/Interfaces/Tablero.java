@@ -7,6 +7,7 @@ package Interfaces;
 import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
+import Funciones.BFS;
 import Funciones.GuardarCSV;
 import static Interfaces.Inicio.buscaMinaApp;
 import java.awt.Color;
@@ -44,6 +45,7 @@ public class Tablero extends javax.swing.JFrame {
     private JLabel lblModo; // Label para mostrar el modo actual
 
     public Tablero() {
+        //coordenadasLabel=new JLabel("Coordenadas");
         initComponents();
         this.setVisible(true);
         this.setResizable(false);
@@ -113,8 +115,8 @@ public class Tablero extends javax.swing.JFrame {
 
         // Agregar botones extras
         agregarBotonesExtras();
+       
     }
-    
     private void actualizarTablero(){
 
         for (int i = 0; i <numFilas ; i++) {
@@ -174,7 +176,7 @@ public class Tablero extends javax.swing.JFrame {
         }
         }
     }
-
+    
     private void btnClick(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         String[] coordenada = btn.getName().split(",");
@@ -192,7 +194,13 @@ public class Tablero extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Haz Perdido");
                     accionSalir();
                 } else {
-                    btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
+
+                    Grafo g=buscaMinaApp.getGrafo();
+                    BFS bfs=new BFS(g);
+                    bfs.Barrer(posFila, posColumna);
+                    actualizarTablero();
+                    
+                    //btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
                 }
             } else {
                 if (buscaMinaApp.getGrafo().verticesMarcados() < this.numMinas) {
@@ -233,7 +241,6 @@ public class Tablero extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Error: No se encontró la casilla en el grafo.");
         }
     }
-
     private void agregarBotonesExtras() {
         int posXBotones = 25;
         int posYBotones = botonesTablero[numFilas - 1][0].getY() + botonesTablero[numFilas - 1][0].getHeight() + 20;
