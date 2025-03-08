@@ -17,15 +17,16 @@ public class Casilla {
     private int fila;
     private boolean mina;
     private boolean estaMarcada;
-    private boolean estaBarrida;
+    private boolean revelada;
     private Lista adyacentes;
+    
 
-    public Casilla(String columna, int fila) {
+    public Casilla( String columna,int fila) {
         this.columna = columna;
         this.fila = fila;
         this.mina = false;
         this.estaMarcada = false;
-        this.estaBarrida = false;
+        this.revelada = false;
         this.adyacentes = new Lista();
         int numVertice;
     }
@@ -54,12 +55,12 @@ public class Casilla {
         this.estaMarcada = estaMarcada;
     }
 
-    public boolean isEstaBarrida() {
-        return estaBarrida;
+    public boolean estaRevelada() {
+        return revelada;
     }
 
-    public void setEstaBarrida(boolean estaBarrida) {
-        this.estaBarrida = estaBarrida;
+    public void setRevelada(boolean revelada) {
+        this.revelada = revelada;
     }
 
     public Lista getAdyacentes() {
@@ -115,7 +116,7 @@ public class Casilla {
         int count = 0;
         for (int i = 0; i < this.adyacentes.getSize(); i++) {
             Casilla casillaActual = (Casilla) this.adyacentes.getValor(i);
-            if(casillaActual.mina){
+            if(casillaActual.isMina()){
                 count++;
             }
         }
@@ -158,13 +159,15 @@ public class Casilla {
     }
 
     public String barridaStr() {
-        if (this.estaBarrida) {
+        if (this.revelada) {
             return "Si";
         }
 
         return "No";
     }
-
+    public void Revelar(){
+        revelada=true;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
