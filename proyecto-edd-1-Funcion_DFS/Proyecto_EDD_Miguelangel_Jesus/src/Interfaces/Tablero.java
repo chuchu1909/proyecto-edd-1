@@ -7,6 +7,8 @@ package Interfaces;
 import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
+import Funciones.BFS;
+import Funciones.DFS;
 /*import Funciones.BFS; */
 import static Interfaces.Inicio.buscaMinaApp;
 import java.awt.Color;
@@ -17,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import Funciones.GuardarCSV;
+import java.util.Stack;
 /**
  *
  * @author Miguel
@@ -149,7 +152,37 @@ public class Tablero extends javax.swing.JFrame {
             }
         }
     }
+    public void probarDFS() {
+    Grafo grafo = buscaMinaApp.getGrafo(); // Obtén el grafo actual
+    DFS dfs = new DFS(grafo); // Crea una instancia de DFS
+
+    // Llama al método buscar con el nombre de una casilla existente
+    String nombreCasillaInicio = "A0"; // Cambia esto por una casilla válida en tu grafo
+    dfs.buscar(nombreCasillaInicio);
+}
+    private void realizarDFS(Casilla casilla) {
+    Stack<Casilla> stack = new Stack<>();
+    stack.push(casilla);
     
+    while (!stack.isEmpty()) {
+        Casilla actual = stack.pop();
+        int filaActual = actual.getFila();
+        int columnaActual = actual.getColumna().charAt(0) - 'A';
+        boolean[][] visitado = null;
+
+        if (!visitado[filaActual][columnaActual]) {
+            visitado[filaActual][columnaActual] = true;
+            System.out.println("Visitando: " + actual.getNombre()); // Imprime la casilla visitada
+
+            for (int i = 0; i < actual.cantidadAdy(); i++) {
+                Casilla vecino = (Casilla) actual.getAdyacentes().getValor(i);
+                if (!visitado[vecino.getFila()][vecino.getColumna().charAt(0) - 'A']) {
+                    stack.push(vecino);
+                }
+            }
+        }
+    }
+}
     private void btnClick(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         String[] coordenada = btn.getName().split(",");
