@@ -156,7 +156,9 @@ public class Casilla {
 
         return "No";
     }
-
+    public void Revelar() {
+        revelada = true;
+    }
     public String barridaStr() {
         if (this.estaBarrida) {
             return "Si";
