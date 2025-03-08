@@ -8,6 +8,7 @@ import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
 import Funciones.BFS;
+import Funciones.DFS;
 import static Interfaces.Inicio.buscaMinaApp;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -17,8 +18,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import Funciones.GuardarCSV;
+import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Miguel
@@ -31,14 +34,13 @@ public class Tablero extends javax.swing.JFrame {
      */
     int numFilas = buscaMinaApp.getN();
     int numColumnas = buscaMinaApp.getN();
-
     int numMinas = buscaMinaApp.getCantidadMinas();
     private Lista letras = new Lista();
     JButton[][] botonesTablero;
     JButton[][] btnBarrido;
-
     boolean bandera = false;
     int numBanderasMinas = 0;
+    private Lista jugadas=new Lista();
 
     private JLabel lblModo; // Label para mostrar el modo actual
 
@@ -114,6 +116,22 @@ public class Tablero extends javax.swing.JFrame {
         // Agregar botones extras
         agregarBotonesExtras();
        
+    }
+    private void registrarJugada(String posColumna,int posFila,String nombreCasilla){
+        String jugada= "Columna:"+posColumna+"  "+"Fila:"+posFila+"  "+
+                "Nombre de la casilla es:"+nombreCasilla;
+                jugadas.InsertarFinal(jugada);
+                
+    }
+    
+    private void imprimirJugadas(){
+    int N=1;
+        System.out.println("Jugadas realizadas:");
+        for(int i=0;i<jugadas.getSize();i++){
+            String jugada=(String) jugadas.get(i);
+            System.out.println("Jugada numero:"+N+"     "+jugada);
+            N++;            
+        }System.out.println("");
     }
     private void actualizarTablero(){
 
@@ -192,10 +210,14 @@ public class Tablero extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Haz Perdido");
                     accionSalir();
                 } else {
-
-                    Grafo g=buscaMinaApp.getGrafo();
-                    BFS bfs=new BFS(g);
-                    bfs.Barrer(posFila, posColumna);
+                      registrarJugada(posColumna,posFila,nombreCasilla);
+                      imprimirJugadas();
+                      Grafo g=buscaMinaApp.getGrafo();
+                      DFS dfs=new DFS(g);
+                      dfs.realizarDFS(nombreCasilla);
+//                    Grafo g=buscaMinaApp.getGrafo();
+//                    BFS bfs=new BFS(g);
+//                    bfs.Barrer(posFila, posColumna);
                     actualizarTablero();
                     
                     //btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
@@ -238,6 +260,7 @@ public class Tablero extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Error: No se encontró la casilla en el grafo.");
         }
+        
     }
     //Agrega botones extra para el usuario,
     private void agregarBotonesExtras() {
@@ -268,24 +291,24 @@ public class Tablero extends javax.swing.JFrame {
 
     // Acción para el botón "Guardar"
     private void accionGuardar() {
-//        JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
-//        fileChooser.setAcceptAllFileFilterUsed(false);
-//        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv")); // Filtrar solo archivos .csv
-//        int seleccion = fileChooser.showSaveDialog(this);
-//    
-//    if (seleccion == JFileChooser.APPROVE_OPTION) {
-//        // Obtener el archivo seleccionado por el usuario
-//        File archivo = fileChooser.getSelectedFile();
-//        
-//        // Si el archivo no tiene la extensión ".csv", agregarla automáticamente
-//        if (!archivo.getName().endsWith(".csv")) {
-//            archivo = new File(archivo.getAbsolutePath() + ".csv");
-//        }
-//        // Llamar a la función de guardado pasándole el archivo elegido
-//        GuardarCSV.guardarPartida(botonesTablero, archivo);}
-//    }
-}
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv")); // Filtrar solo archivos .csv
+        int seleccion = fileChooser.showSaveDialog(this);
+    
+    if (seleccion == JFileChooser.APPROVE_OPTION) {
+        // Obtener el archivo seleccionado por el usuario
+        File archivo = fileChooser.getSelectedFile();
+        
+        // Si el archivo no tiene la extensión ".csv", agregarla automáticamente
+        if (!archivo.getName().endsWith(".csv")) {
+            archivo = new File(archivo.getAbsolutePath() + ".csv");
+        }
+        // Llamar a la función de guardado pasándole el archivo elegido
+        GuardarCSV.guardarPartida(botonesTablero, archivo);}
+    }
+
     
     
 
