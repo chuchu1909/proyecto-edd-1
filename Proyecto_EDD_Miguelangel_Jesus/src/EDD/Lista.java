@@ -288,7 +288,8 @@ public class Lista {
         }
     }
     
-    //Metodo para obtener el valor de un nodo en una determinada posición
+    /*M&eacutetodo  para obtener el valor de un nodo en una determinada 
+    posici&oacuten*/
     public Object getValor(int posicion){
 
         if(posicion>=0 && posicion<size){
@@ -306,7 +307,7 @@ public class Lista {
         return null;
     }
     
-        //Metodo para obtener un nodo en una determinada posición
+        //M&eacutetodo  para obtener un nodo en una determinada posici&oacuten
     public Nodo getNodo(int posicion){
 
         if(posicion>=0 && posicion<size){
@@ -324,7 +325,7 @@ public class Lista {
         return null;
     }
     
-    //Metodo para retornar la posicion de un nodo
+    //M&eacutetodo para retornar la posici&oacuten de un nodo
     public int getIndex (Nodo nodito){
         if (!EsVacio()){
             Nodo aux = pFirst;
@@ -332,7 +333,7 @@ public class Lista {
             while(aux != null){
                 
                 if (nodito == aux){
-                    return count;     //posicion en memoria del nodo
+                    return count;     //posici&oacuten en memoria del nodo
                 }
                 count ++;
                 aux = aux.getPnext();
@@ -342,7 +343,7 @@ public class Lista {
     return -1;
     }
     
-    //Consulta la posición de un elemento en la lista
+    //Consulta la posici&oacuten de un elemento en la lista
     public int getPosicion(Object referencia){
 
         if (buscar(referencia)) {
@@ -359,7 +360,7 @@ public class Lista {
         }
     }
     
-    // Funcion para buscar un elemento en la lista
+    // Funci&oacutenn para buscar un elemento en la lista
     public boolean buscar(Object referencia){
         Nodo aux = pFirst;
         boolean encontrado = false;
