@@ -104,12 +104,40 @@ public class BuscaMina {
             }
         }
     }
-    
-    public void resetearMinas(){
+
+    public void resetearMinas() {
         this.grafo = new Grafo();
         this.cantidadMinas = 0;
         this.n = 0;
-    
+
+    }
+
+    public void conectar() {
+        char[] letras = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'}; // Soporta hasta 10x10
+        
+        for (int fila = 0; fila < this.n; fila++) {
+            for (int columna = 0; columna < this.n; columna++) {
+                String actual = letras[columna] + String.valueOf(fila);
+
+                // Posibles movimientos (izquierda, derecha, arriba, abajo y diagonales)
+                int[][] movimientos = {
+                    {-1, -1}, {-1, 0}, {-1, 1}, // Diagonal superior izquierda, arriba, diagonal superior derecha
+                    {0, -1}, {0, 1}, // Izquierda, derecha
+                    {1, -1}, {1, 0}, {1, 1} // Diagonal inferior izquierda, abajo, diagonal inferior derecha
+                };
+
+                for (int[] mov : movimientos) {
+                    int nuevaFila = fila + mov[0];
+                    int nuevaColumna = columna + mov[1];
+
+                    if (nuevaFila >= 0 && nuevaFila < this.n && nuevaColumna >= 0 && nuevaColumna < this.n) {
+                        String vecino = letras[nuevaColumna] + String.valueOf(nuevaFila);
+                        grafo.agregarAdyacencia(actual, vecino);
+                        //System.out.println(actual + "," + vecino);
+                    }
+                }
+            }
+        }
     }
     
 }

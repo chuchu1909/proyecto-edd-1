@@ -32,6 +32,7 @@ public class Tablero extends javax.swing.JFrame {
     /**
      * Creates new form Tablero
      */
+    
     int numFilas = buscaMinaApp.getN();
     int numColumnas = buscaMinaApp.getN();
     int numMinas = buscaMinaApp.getCantidadMinas();
@@ -40,7 +41,7 @@ public class Tablero extends javax.swing.JFrame {
     JButton[][] btnBarrido;
     boolean bandera = false;
     int numBanderasMinas = 0;
-    private Lista jugadas=new Lista();
+    private Lista jugadas = new Lista();
 
     private JLabel lblModo; // Label para mostrar el modo actual
 
@@ -55,7 +56,7 @@ public class Tablero extends javax.swing.JFrame {
         lblModo = new JLabel("Modo: Barrer");
         lblModo.setBounds(25, 10, 200, 30); // Posición y tamaño
         getContentPane().add(lblModo);
-
+        actualizarTablero();
     }
 
     private void cargarControles() {
@@ -115,84 +116,90 @@ public class Tablero extends javax.swing.JFrame {
 
         // Agregar botones extras
         agregarBotonesExtras();
-       
-    }
-    private void registrarJugada(String posColumna,int posFila,String nombreCasilla){
-        String jugada= "Columna:"+posColumna+"  "+"Fila:"+posFila+"  "+
-                "Nombre de la casilla es:"+nombreCasilla;
-                jugadas.InsertarFinal(jugada);
-                
-    }
-    
-    private void imprimirJugadas(){
-    int N=1;
-        System.out.println("Jugadas realizadas:");
-        for(int i=0;i<jugadas.getSize();i++){
-            String jugada=(String) jugadas.get(i);
-            System.out.println("Jugada numero:"+N+"     "+jugada);
-            N++;            
-        }System.out.println("");
-    }
-    private void actualizarTablero(){
 
-        for (int i = 0; i <numFilas ; i++) {
+    }
+
+    private void registrarJugada(String posColumna, int posFila, String nombreCasilla) {
+        String jugada = "Columna:" + posColumna + "  " + "Fila:" + posFila + "  "
+                + "Nombre de la casilla es:" + nombreCasilla;
+        jugadas.InsertarFinal(jugada);
+
+    }
+
+    private void imprimirJugadas() {
+        int N = 1;
+        System.out.println("Jugadas realizadas:");
+        for (int i = 0; i < jugadas.getSize(); i++) {
+            String jugada = (String) jugadas.get(i);
+            System.out.println("Jugada numero:" + N + "     " + jugada);
+            N++;
+        }
+        System.out.println("");
+    }
+
+    private void actualizarTablero() {
+
+        for (int i = 0; i < numFilas; i++) {
             for (int j = 0; j < numColumnas; j++) {
-                
-                String nombreCasilla=(char)('A'+j)+String.valueOf(i);
+
+                String nombreCasilla = (char) ('A' + j) + String.valueOf(i);
                 Casilla casilla = buscaMinaApp.getGrafo().buscar(nombreCasilla);
-                final int fi=i;
-                final int fj=j;
-                if(casilla!=null){
-                if(casilla.estaRevelada()){
-                    if(casilla.isMina()){
-                        SwingUtilities.invokeLater(new Runnable(){
-                              @Override
-                              public void run(){    
-                        botonesTablero[fi][fj].setText("💣");
-                        botonesTablero[fi][fj].setBackground(Color.RED);
-                         //estas funciones sirven para actualizar la interfaz 
-                        botonesTablero[fi][fj].revalidate();
-                        botonesTablero[fi][fj].repaint();      
-                              }
-                    });}else{
-                        int minasAdyacentes=casilla.cantidadMinasAdy();
-                            SwingUtilities.invokeLater(new Runnable(){
-                              @Override
-                              public void run(){
-                        if(minasAdyacentes>0 ){
-                            botonesTablero[fi][fj].setText(String.valueOf(minasAdyacentes));
-                            botonesTablero[fi][fj].setBackground(Color.YELLOW);}
-                        else{
-                            botonesTablero[fi][fj].setText("");
-                            botonesTablero[fi][fj].setBackground(Color.BLUE);
-                            }
-                        //Desabilita el boton si la casilla ya fue revelada
-                        botonesTablero[fi][fj].setEnabled(false);
-                        //estas funciones sirven para actualizar la interfaz 
-                        botonesTablero[fi][fj].revalidate();
-                        botonesTablero[fi][fj].repaint();}
-                              });
-           
+                final int fi = i;
+                final int fj = j;
+                if (casilla != null) {
+                    if (casilla.estaRevelada()) {
+                        if (casilla.isMina()) {
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    botonesTablero[fi][fj].setText("💣");
+                                    botonesTablero[fi][fj].setBackground(Color.RED);
+                                    //estas funciones sirven para actualizar la interfaz 
+                                    botonesTablero[fi][fj].revalidate();
+                                    botonesTablero[fi][fj].repaint();
+                                }
+                            });
+                        } else {
+                            int minasAdyacentes = casilla.cantidadMinasAdy();
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (minasAdyacentes > 0) {
+                                        botonesTablero[fi][fj].setText(String.valueOf(minasAdyacentes));
+                                        botonesTablero[fi][fj].setBackground(Color.YELLOW);
+                                    } else {
+                                        botonesTablero[fi][fj].setText("");
+                                        botonesTablero[fi][fj].setBackground(Color.BLUE);
+                                    }
+                                    //Desabilita el boton si la casilla ya fue revelada
+                                    botonesTablero[fi][fj].setEnabled(false);
+                                    //estas funciones sirven para actualizar la interfaz 
+                                    botonesTablero[fi][fj].revalidate();
+                                    botonesTablero[fi][fj].repaint();
+                                }
+                            });
+
                         }
                     }
-                    
-                }else{
-                SwingUtilities.invokeLater(new Runnable(){
-                @Override
-                public void run(){
-                botonesTablero[fi][fj].setText("");
-                botonesTablero[fi][fj].setBackground(Color.GRAY);
-                botonesTablero[fi][fj].setEnabled(true);
-                 //estas funciones sirven para actualizar la interfaz 
-                botonesTablero[fi][fj].revalidate();
-                botonesTablero[fi][fj].repaint();}
+
+                } else {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            botonesTablero[fi][fj].setText("");
+                            botonesTablero[fi][fj].setBackground(Color.GRAY);
+                            botonesTablero[fi][fj].setEnabled(true);
+                            //estas funciones sirven para actualizar la interfaz 
+                            botonesTablero[fi][fj].revalidate();
+                            botonesTablero[fi][fj].repaint();
+                        }
+                    }
+                    );
                 }
-                );
             }
         }
-        }
     }
-    
+
     private void btnClick(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         String[] coordenada = btn.getName().split(",");
@@ -210,16 +217,16 @@ public class Tablero extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Haz Perdido");
                     accionSalir();
                 } else {
-                      registrarJugada(posColumna,posFila,nombreCasilla);
-                      imprimirJugadas();
-                      Grafo g=buscaMinaApp.getGrafo();
-                      DFS dfs= new DFS(g);
-                      dfs.realizarDFS(nombreCasilla);
+                    registrarJugada(posColumna, posFila, nombreCasilla);
+                    imprimirJugadas();
+                    Grafo g = buscaMinaApp.getGrafo();
+                    DFS dfs = new DFS(g);
+                    dfs.realizarDFS(nombreCasilla);
 //                    Grafo g=buscaMinaApp.getGrafo();
 //                    BFS bfs=new BFS(g);
 //                    bfs.Barrer(posFila, posColumna);
                     actualizarTablero();
-                    
+
                     //btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
                 }
             } else {
@@ -260,8 +267,9 @@ public class Tablero extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Error: No se encontró la casilla en el grafo.");
         }
-        
+
     }
+
     private void agregarBotonesExtras() {
         int posXBotones = 25;
         int posYBotones = botonesTablero[numFilas - 1][0].getY() + botonesTablero[numFilas - 1][0].getHeight() + 20;
@@ -291,26 +299,25 @@ public class Tablero extends javax.swing.JFrame {
     // Acción para el botón "Guardar"
     private void accionGuardar() {
         JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
-    fileChooser.setAcceptAllFileFilterUsed(false);
-    fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv")); // Filtrar solo archivos .csv
+        fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv")); // Filtrar solo archivos .csv
 
-    int seleccion = fileChooser.showSaveDialog(this);
-    
-    if (seleccion == JFileChooser.APPROVE_OPTION) {
-        // Obtener el archivo seleccionado por el usuario
-        File archivo = fileChooser.getSelectedFile();
-        
-        // Si el archivo no tiene la extensión ".csv", agregarla automáticamente
-        if (!archivo.getName().endsWith(".csv")) {
-            archivo = new File(archivo.getAbsolutePath() + ".csv");
+        int seleccion = fileChooser.showSaveDialog(this);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            // Obtener el archivo seleccionado por el usuario
+            File archivo = fileChooser.getSelectedFile();
+
+            // Si el archivo no tiene la extensión ".csv", agregarla automáticamente
+            if (!archivo.getName().endsWith(".csv")) {
+                archivo = new File(archivo.getAbsolutePath() + ".csv");
+            }
+
+            // Llamar a la función de guardado pasándole el archivo elegido
+            GuardarCSV.guardarPartida(botonesTablero, archivo);
         }
 
-        // Llamar a la función de guardado pasándole el archivo elegido
-        GuardarCSV.guardarPartida(botonesTablero, archivo);
-    }
-        
-    
     }
 
 // Acción para el botón "Salir"
