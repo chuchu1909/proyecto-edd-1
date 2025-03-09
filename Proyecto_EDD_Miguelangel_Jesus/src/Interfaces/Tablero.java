@@ -11,15 +11,21 @@ import Funciones.BFS;
 import Funciones.DFS;
 import Funciones.GuardarCSV;
 import static Interfaces.Inicio.buscaMinaApp;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 /**
@@ -42,6 +48,10 @@ public class Tablero extends javax.swing.JFrame {
     boolean bandera = false;
     int numBanderasMinas = 0;
     private Lista jugadas = new Lista();
+    private JRadioButton boton_DFS;
+    private JRadioButton boton_BFS;
+   
+    private  ButtonGroup tipoBusqueda;
 
     private JLabel lblModo; // Label para mostrar el modo actual
 
@@ -108,7 +118,7 @@ public class Tablero extends javax.swing.JFrame {
         }
 
         // Ajustar tamaño de la ventana para los botones adicionales
-        int alturaExtra = 100; // Espacio extra para los botones
+        int alturaExtra = 150; // Espacio extra para los botones
         int nuevaAltura = posYReferencia + altoTablero + alturaExtra;
         int nuevaAncho = Math.max(getWidth(), anchoTablero + 50);
 
@@ -116,90 +126,162 @@ public class Tablero extends javax.swing.JFrame {
 
         // Agregar botones extras
         agregarBotonesExtras();
-
+        agregarBotonesDeBusqueda();
+        revalidate();
+        repaint(); 
+       
     }
-
-    private void registrarJugada(String posColumna, int posFila, String nombreCasilla) {
-        String jugada = "Columna:" + posColumna + "  " + "Fila:" + posFila + "  "
-                + "Nombre de la casilla es:" + nombreCasilla;
-        jugadas.InsertarFinal(jugada);
-
+    /*Registra las fugadas hechas por el usuario y las agrea a una lista*/
+    private void registrarJugada(String posColumna,int posFila,String nombreCasilla){
+        String jugada= "Columna:"+posColumna+"  "+"Fila:"+posFila+"  "+
+                "Nombre de la casilla es:"+nombreCasilla;
+                jugadas.InsertarFinal(jugada);
+                
     }
+    
+    //Crear los botones de tipo de b&uacutesqueda
+    private void agregarBotonesDeBusqueda(){
+     /**/
+        setLayout(new BorderLayout());  
+        
+    /*Se crea un panel para que permite posci&oacute 
+     componentes dentro del panel*/
+    JPanel panelPrincipal= new JPanel(null);
+     getContentPane().add(panelPrincipal,BorderLayout.CENTER);
+     
+    //Se crea el panel de b&uacutesqueda y se alinea a la izquierda
+    JPanel panelOpciones= new JPanel(new FlowLayout(FlowLayout.LEFT,10,5));
+    /*Se pone en el norte del tablero principal*/
+    getContentPane().add(panelOpciones,BorderLayout.NORTH);
+    
+    //Crea los botones para seleccionar la b&uacutesqueda 
+    boton_DFS=new JRadioButton("DFS");
+    boton_BFS=new JRadioButton("BFS");
+    /*ButtonGroup() verifica que solo uno de ellos este activo*/
+    tipoBusqueda=new ButtonGroup();
+    tipoBusqueda.add(boton_BFS);
+    tipoBusqueda.add(boton_DFS);
+    
+    //agrega los botones al panel de opci&oacuten
+    panelOpciones.add(new JLabel("Selecciona el tipo de Búsqueda"));
+    panelOpciones.add(boton_DFS);
+    panelOpciones.add(boton_BFS);
+    
+    /*Tamaño para el panel de opci&oacuten*/
+    panelOpciones.setPreferredSize(new Dimension (300,60));
+    /*Se agrega un borde gris alrededor del panel de opci&oacuten */
+    panelOpciones.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-    private void imprimirJugadas() {
-        int N = 1;
-        System.out.println("Jugadas realizadas:");
-        for (int i = 0; i < jugadas.getSize(); i++) {
-            String jugada = (String) jugadas.get(i);
-            System.out.println("Jugada numero:" + N + "     " + jugada);
-            N++;
+    //getContentPane().add(panelOpciones);
+    
+    
+    //Opci&oacuten con la que empiezas
+    boton_BFS.setSelected(true);
+    
+    /*Cuando se presiona un boton imprime el tipo de b&uacutesqueda  */
+    boton_BFS.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Búsqueda BFS seleccionada");
         }
-        System.out.println("");
+    });
+        boton_DFS.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e){
+            System.out.println("Búsqueda DFS seleccionada");
+       }
+    });
+    
     }
-
-    private void actualizarTablero() {
-
-        for (int i = 0; i < numFilas; i++) {
+    
+    /*Imprime la lista de jugadas y las enumera*/
+    private void imprimirJugadas(){
+    int N=1;
+        System.out.println("Jugadas realizadas:");
+        for(int i=0;i<jugadas.getSize();i++){
+            String jugada=(String) jugadas.get(i);
+            System.out.println("Jugada numero:"+N+"     "+jugada);
+            N++;            
+        }System.out.println("");
+    }
+    
+    /*Actualiza el tablero para mostrar el barrido*/
+    private void actualizarTablero(){
+        /*Recorrer las casillas del tablero*/
+        for (int i = 0; i <numFilas ; i++) {
             for (int j = 0; j < numColumnas; j++) {
-
-                String nombreCasilla = (char) ('A' + j) + String.valueOf(i);
+                /*se convierte las columnas de letras a numeros*/
+                String nombreCasilla=(char)('A'+j)+String.valueOf(i);
+                /*Se busca la casilla en el grafo*/
                 Casilla casilla = buscaMinaApp.getGrafo().buscar(nombreCasilla);
-                final int fi = i;
-                final int fj = j;
-                if (casilla != null) {
-                    if (casilla.estaRevelada()) {
-                        if (casilla.isMina()) {
-                            SwingUtilities.invokeLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    botonesTablero[fi][fj].setText("💣");
-                                    botonesTablero[fi][fj].setBackground(Color.RED);
-                                    //estas funciones sirven para actualizar la interfaz 
-                                    botonesTablero[fi][fj].revalidate();
-                                    botonesTablero[fi][fj].repaint();
-                                }
-                            });
-                        } else {
-                            int minasAdyacentes = casilla.cantidadMinasAdy();
-                            SwingUtilities.invokeLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (minasAdyacentes > 0) {
-                                        botonesTablero[fi][fj].setText(String.valueOf(minasAdyacentes));
-                                        botonesTablero[fi][fj].setBackground(Color.YELLOW);
-                                    } else {
-                                        botonesTablero[fi][fj].setText("");
-                                        botonesTablero[fi][fj].setBackground(Color.BLUE);
-                                    }
-                                    //Desabilita el boton si la casilla ya fue revelada
-                                    botonesTablero[fi][fj].setEnabled(false);
-                                    //estas funciones sirven para actualizar la interfaz 
-                                    botonesTablero[fi][fj].revalidate();
-                                    botonesTablero[fi][fj].repaint();
-                                }
-                            });
-
-                        }
-                    }
-
-                } else {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
+                /*Se obtiene las variables finales */
+                final int fi=i;
+                final int fj=j;
+                /*Se verifica que la casilla exita y que no este revelada */
+                if(casilla!=null){
+                if(casilla.estaRevelada()){
+                    /*Si la casilla tiene una mina se pone una bomba y 
+                    se pone de color rojo la casilla */
+                    if(casilla.isMina()){
+                        /*Runnable este m&eacutetodo asegura que la intefaz se
+                        actualice correectamente y de manera segura y el run 
+                        se encarga de actualizar las componentes*/
+                        SwingUtilities.invokeLater(new Runnable(){
+                              @Override
+                              public void run(){    
+                        botonesTablero[fi][fj].setText("💣");
+                        botonesTablero[fi][fj].setBackground(Color.RED);
+                        
+                       //estas funciones sirven para actualizar la interfaz 
+                        botonesTablero[fi][fj].revalidate();
+                        botonesTablero[fi][fj].repaint();      
+                              }
+                    });}else{
+                        /*Se obtiene la minas adyacentes deesa casilla*/
+                        int minasAdyacentes=casilla.cantidadMinasAdy();
+                            SwingUtilities.invokeLater(new Runnable(){
+                              @Override
+                              public void run(){
+                        /*Si hay mas de una mina cerca la casilla se pone 
+                        de color amarilla y muestra el numero de minas cerca*/
+                        if(minasAdyacentes>0 ){
+                            botonesTablero[fi][fj].setText(String.valueOf(minasAdyacentes));
+                            botonesTablero[fi][fj].setBackground(Color.YELLOW);}
+                        else{
+                            /*Si no hay minas cerca las casilla se cambia 
+                            a color azul*/
                             botonesTablero[fi][fj].setText("");
-                            botonesTablero[fi][fj].setBackground(Color.GRAY);
-                            botonesTablero[fi][fj].setEnabled(true);
-                            //estas funciones sirven para actualizar la interfaz 
-                            botonesTablero[fi][fj].revalidate();
-                            botonesTablero[fi][fj].repaint();
+                            botonesTablero[fi][fj].setBackground(Color.BLUE);
+                            }
+                        //Desabilita el boton si la casilla ya fue revelada
+                        botonesTablero[fi][fj].setEnabled(false);
+                        //estas funciones sirven para actualizar la interfaz 
+                        botonesTablero[fi][fj].revalidate();
+                        botonesTablero[fi][fj].repaint();}
+                              });
+           
                         }
                     }
-                    );
+                    
+                }else{
+                SwingUtilities.invokeLater(new Runnable(){
+                @Override
+                public void run(){
+                /*Si la casilla no ha sido revelada entonces
+                la casilla sera de color gris */
+                botonesTablero[fi][fj].setText("");
+                botonesTablero[fi][fj].setBackground(Color.GRAY);
+                botonesTablero[fi][fj].setEnabled(true);
+                 //estas funciones sirven para actualizar la interfaz 
+                botonesTablero[fi][fj].revalidate();
+                botonesTablero[fi][fj].repaint();}
                 }
+                );
             }
         }
+        }
     }
-
+    
     private void btnClick(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         String[] coordenada = btn.getName().split(",");
@@ -217,17 +299,28 @@ public class Tablero extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Haz Perdido");
                     accionSalir();
                 } else {
-                    registrarJugada(posColumna, posFila, nombreCasilla);
-                    imprimirJugadas();
-                    Grafo g = buscaMinaApp.getGrafo();
-                    DFS dfs = new DFS(g);
-                    dfs.realizarDFS(nombreCasilla);
-//                    Grafo g=buscaMinaApp.getGrafo();
-//                    BFS bfs=new BFS(g);
-//                    bfs.Barrer(posFila, posColumna);
-                    actualizarTablero();
-
-                    //btn.setText(String.valueOf(casilla.cantidadMinasAdy())); // Si no es mina, escribir "0"
+                      /*Envia las posici&oacuten de la casilla 
+                    que le dieron click*/
+                      registrarJugada(posColumna,posFila,nombreCasilla);
+                      /*Imprime esa casilla*/
+                      imprimirJugadas();
+                      /*Obtener el grafo del tablero*/
+                      Grafo g=buscaMinaApp.getGrafo();
+                      /*Utiliza el m&eacutetodo para realizar la b&uacutesqueda
+                      de forma DFS*/
+                      if(boton_DFS.isSelected()){
+                            DFS dfs=new DFS(g);
+                      /*Barre todos los 0 alrededor de la casilla con DFS*/
+                      dfs.realizarDFS(nombreCasilla);
+                      }
+                      /*Utiliza el m&eacutetodo para realizar la b&uacutesqueda
+                      de forma BFS*/
+                      else if(boton_BFS.isSelected()){
+                        BFS bfs=new BFS(g);
+                        /*Barre todos los 0 alrededor de la casilla con BFS*/
+                        bfs.Barrer(posFila, posColumna);
+                      }
+                    actualizarTablero();     
                 }
             } else {
                 if (buscaMinaApp.getGrafo().verticesMarcados() < this.numMinas) {
@@ -267,9 +360,9 @@ public class Tablero extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Error: No se encontró la casilla en el grafo.");
         }
-
+        
     }
-
+    //Agrega botones extra para el usuario,
     private void agregarBotonesExtras() {
         int posXBotones = 25;
         int posYBotones = botonesTablero[numFilas - 1][0].getY() + botonesTablero[numFilas - 1][0].getHeight() + 20;
@@ -295,8 +388,6 @@ public class Tablero extends javax.swing.JFrame {
         btnMarcar.addActionListener(e -> accionMarcar());
         getContentPane().add(btnMarcar);
     }
-
-    // Acción para el botón "Guardar"
     private void accionGuardar() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
