@@ -48,6 +48,10 @@ public class Tablero extends javax.swing.JFrame {
     boolean bandera = false;
     int numBanderasMinas = 0;
     private Lista jugadas = new Lista();
+    private JRadioButton boton_DFS;
+    private JRadioButton boton_BFS;
+   
+    private  ButtonGroup tipoBusqueda;
 
     private JLabel lblModo; // Label para mostrar el modo actual
 
