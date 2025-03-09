@@ -29,8 +29,9 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ *La clase tablero es donde se genera el tablero, casillas y botones para ejecutar el juego 
  * @author Miguel
+ * @version: 9/03/2025/A
  */
 public class Tablero extends javax.swing.JFrame {
     
@@ -73,7 +74,9 @@ public class Tablero extends javax.swing.JFrame {
         getContentPane().add(lblModo);
         actualizarTablero();
     }
-
+/**
+ * Carga todos los controles del juego 
+ */
     private void cargarControles() {
         letras.nombrarColumnas();
 
@@ -286,7 +289,22 @@ public class Tablero extends javax.swing.JFrame {
         }
         }
     }
-    
+    /**
+ * Maneja el evento de clic en un botón del tablero del juego de Buscaminas. Este método
+ * determina la acción a tomar dependiendo de si el jugador hace clic en una casilla vacía,
+ * una mina, o si está en modo de marcar las minas.
+ * 
+ * @param e El evento que contiene la información del botón que fue presionado.
+ * 
+ * Este método realiza las siguientes acciones:
+ * - Verifica si la casilla correspondiente a la posición del botón contiene una mina o no.
+ * - Si la casilla es una mina, muestra un mensaje de "Haz Perdido" y termina el juego.
+ * - Si la casilla no es una mina, realiza una búsqueda en profundidad (DFS) o en amplitud (BFS)
+ *   dependiendo del modo seleccionado por el jugador, y revela las casillas adyacentes.
+ * - Si el jugador está en el modo de marcar minas (con bandera), marca o desmarca la casilla
+ *   con una bandera, y verifica si el jugador ha ganado cuando todas las minas han sido marcadas.
+ * - En caso de que el jugador haya ganado, muestra un cuadro de confirmación para reiniciar el juego.
+ */
     private void btnClick(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         String[] coordenada = btn.getName().split(",");
