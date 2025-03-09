@@ -182,4 +182,5 @@ public class Casilla {
         return sb.toString();
     } 
     
+    
 }

@@ -154,6 +154,18 @@ public class Grafo {
         
         return count;
     }
+    
+    public int cantidadMinas(){
+        int count = 0;
+        for (int i = 0; i < this.vertices.getSize(); i++) {
+            Casilla casillaActual = (Casilla) this.vertices.getValor(i);
+            if(casillaActual.isMina()){
+                count++;
+            }
+        }
+        
+        return count;
+    }
 
     public void destruir() {
         this.vertices = new Lista();
@@ -176,5 +188,7 @@ public class Grafo {
             return "Grafo vacion";
         }
     }
+    
+    
     
 }
