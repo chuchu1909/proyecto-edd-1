@@ -8,15 +8,22 @@ import Interfaces.Inicio;
 
 /**
  *
+ * 
+ * Esta clase tan solo sirve para inicializar el proyecto 
+ * 
  * @author Miguel
+ *@version: 9/03/2025/A  
  */
 public class Proyecto_EDD_Miguelangel_Jesus {
 
     /**
+     * 
+     * 
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Una funcion estatica que sirve para simplemente ir a la intterfaz de inicio
         Inicio v1 = new Inicio();
     }
     
