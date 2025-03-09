@@ -68,4 +68,8 @@ public class DFS {
             }
         }
     }
+
+    public void realizarDFS(String nombreCasilla) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

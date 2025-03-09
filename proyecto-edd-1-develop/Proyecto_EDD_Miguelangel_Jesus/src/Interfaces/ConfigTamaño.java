@@ -12,7 +12,7 @@ import javax.swing.JSpinner;
 /**
  *Configura el tamaño nxn de el tablero 
  * @author Miguel
- * 
+ * @version: 9/03/2025/A
  */
 public class ConfigTamaño extends javax.swing.JFrame {
     
