@@ -10,8 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 
 /**
- *
+ *Configura el tamaño nxn de el tablero 
  * @author Miguel
+ * 
  */
 public class ConfigTamaño extends javax.swing.JFrame {
     
@@ -20,8 +21,11 @@ public class ConfigTamaño extends javax.swing.JFrame {
    
 
     /**
-     * Creates new form ConfigTamaño
-     */
+ * Constructor de la clase ConfigTamaño.
+ * Inicializa la interfaz gráfica de configuración de tamaño del tablero,
+ * estableciendo su visibilidad, deshabilitando la opción de redimensionado
+ * y centrando la ventana en la pantalla.
+ */
     public ConfigTamaño() {
         initComponents();
         this.setVisible(true);
@@ -82,12 +86,18 @@ public class ConfigTamaño extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * Boton para salir de el programa 
+ * @param evt 
+ */
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
-
+/**
+ * Boton que genera el tablero y te lleva de una vez a este mismo para comenzar el juego
+ * @param evt 
+ */
     private void continuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarActionPerformed
         // TODO add your handling code here:
         int valorInt = (int) valorN.getValue();

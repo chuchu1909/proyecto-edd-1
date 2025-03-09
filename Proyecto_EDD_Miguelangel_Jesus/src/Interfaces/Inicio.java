@@ -18,14 +18,18 @@ import proyecto_edd_miguelangel_jesus.BuscaMina;
 
 
 /**
- *
+ *Clase de inicio en la interfaz que conecta con la opcion de salir, el tablero y cargar un juego previo 
  * @author Miguel
+ * @version: 9/03/2025/A
  */
 public class Inicio extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Inicio
-     */
+  /**
+ * Constructor de la clase Inicio.
+ * Inicializa la interfaz gráfica de configuración de tamaño del tablero,
+ * estableciendo su visibilidad, deshabilitando la opción de redimensionado
+ * y centrando la ventana en la pantalla.
+ */
     public static BuscaMina buscaMinaApp = new BuscaMina();
     public Inicio() {
         initComponents();
@@ -87,19 +91,28 @@ public class Inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * Boton para salir de el programa 
+ * @param evt 
+ */
     private void cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_cerrarActionPerformed
-
+/**
+ * Boton    que lo que hace es llevar a la interfaz de configurar el tamaño para iniciar el juego
+ * @param evt 
+ */
     private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
         // TODO add your handling code here:
         buscaMinaApp.resetearMinas();
         ConfigTamaño v1 = new ConfigTamaño();
         this.dispose();
     }//GEN-LAST:event_inicioActionPerformed
-
+/**
+ * Es un boton para poder cargar partidas anteriores de formato csv generando el tablero tambien
+ * @param evt 
+ */
     private void cargarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaActionPerformed
         buscaMinaApp.resetearMinas();
         

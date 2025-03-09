@@ -36,7 +36,7 @@ public class Tablero extends javax.swing.JFrame {
     
 
     /**
-     * Creates new form Tablero
+     * Inicializacion de parametros
      */
     
     int numFilas = buscaMinaApp.getN();
@@ -54,7 +54,12 @@ public class Tablero extends javax.swing.JFrame {
     private  ButtonGroup tipoBusqueda;
 
     private JLabel lblModo; // Label para mostrar el modo actual
-
+/**
+ * Constructor de la clase Tablero.
+ * Inicializa la interfaz gráfica del juego Buscaminas, deshabilita la opción de redimensionado,
+ * centra la ventana en la pantalla, carga los controles necesarios y actualiza el tablero.
+ * También agrega una etiqueta para mostrar el modo de juego actual.
+ */
     public Tablero() {
         //coordenadasLabel=new JLabel("Coordenadas");
         initComponents();
@@ -64,7 +69,7 @@ public class Tablero extends javax.swing.JFrame {
         cargarControles();
         System.out.println(buscaMinaApp.getGrafo());
         lblModo = new JLabel("Modo: Barrer");
-        lblModo.setBounds(25, 10, 200, 30); // Posición y tamaño
+        lblModo.setBounds(0, 150, 200, 30); // Posición y tamaño
         getContentPane().add(lblModo);
         actualizarTablero();
     }
@@ -388,6 +393,9 @@ public class Tablero extends javax.swing.JFrame {
         btnMarcar.addActionListener(e -> accionMarcar());
         getContentPane().add(btnMarcar);
     }
+/**
+ * Boton que guarda la informacion de el estado actual de el tablero escogendo el archivo donde se deposita la informacion en csv
+ */
     private void accionGuardar() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Seleccionar ubicación para guardar la partida");
@@ -420,7 +428,9 @@ public class Tablero extends javax.swing.JFrame {
         }
     }
 
-// Acción para el botón "Marcar"
+/**
+ * este boton permite que se pueda marcar una mina y actualiza el label del modo 
+ */
     private void accionMarcar() {
 
         bandera = !bandera;

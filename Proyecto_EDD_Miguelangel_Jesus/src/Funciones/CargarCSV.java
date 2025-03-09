@@ -8,10 +8,17 @@ import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 
 /**
- *
+ *Esta clase sirve principalmente para cargar el csv en consola devolviendo un grafo en el proceso 
  * @author Miguel
+ * @version: 9/03/2025/A
  */
 public class CargarCSV {
+    /**
+ * Carga un grafo a partir de una representación en formato CSV.
+ * 
+ * @param grafoStr Cadena de texto que representa el grafo en formato CSV.
+ * @return Un objeto {@code Grafo} cargado con las casillas y sus atributos.
+ */
     public Grafo cargarCSV(String grafoStr){
        Grafo grafo = new Grafo();
        
