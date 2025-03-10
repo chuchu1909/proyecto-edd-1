@@ -8,48 +8,83 @@ import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
 import EDD.Nodo;
-import java.util.HashSet;
-import java.util.Set;
+
 
 /**
  *
  * @author Miguel
  */
 public class DFS {
-    private final Grafo grafo;
+    private Grafo grafo;
+    private Lista barrido; // Lista para almacenar el recorrido del barrido
 
-
+    /**
+     * Constructor de DFS.
+     * @param grafo Grafo donde se ejecutará la búsqueda.
+     */
     public DFS(Grafo grafo) {
         this.grafo = grafo;
+        this.barrido = new Lista();
     }
 
-    public void realizarDFS(String nombreCasilla) {
-        Casilla inicio = grafo.buscar(nombreCasilla);
-        if (inicio == null) {
+    /**
+     * Método para ejecutar DFS desde un vértice.
+     * @param inicio Nombre del vértice inicial (Ejemplo: "A0").
+     */
+    public void ejecutarDFS(String inicio) {
+        Casilla casillaInicio = grafo.buscar(inicio);
+        
+        if (casillaInicio == null) {
+            System.out.println("La casilla no existe.");
             return;
         }
 
-        Set<Casilla> visitados = new HashSet<>();
-        dfsRecursivo(inicio, visitados);
+        // Si el vértice es una mina o tiene minas adyacentes, no se hace barrido
+        if (casillaInicio.isMina() || casillaInicio.cantidadAdy() > 0) {
+        } else {
+            System.out.println("El Casilla tiene minas adyacentes, no se puede barrer.");
+            return;
+        }
+
+        // Inicialización de DFS
+        Lista visitados = new Lista();
+        dfsRecursivo(casillaInicio, visitados);
     }
 
-    private void dfsRecursivo(Casilla casilla, Set<Casilla> visitados) {
-        visitados.add(casilla);
-        casilla.revelar();
+    /**
+     * Método recursivo para DFS.
+     * @param actual Vértice actual en el recorrido.
+     * @param visitados Lista de vértices visitados.
+     */
+    private void dfsRecursivo(Casilla actual, Lista visitados) {
+        if (actual == null) return;
         
-        int numMinasCercanas=casilla.cantidadMinasAdy();
-        if(numMinasCercanas>0 || casilla.isMina()){
-        return;
+        barrido.InsertarFinal(actual); // Guardamos el recorrido
+        visitados.InsertarFinal(actual);
+
+        // Si el vértice tiene minas adyacentes, detenemos el barrido
+        if (actual.cantidadMinasAdy() > 0) {
+            return;
         }
-        Lista adyacentes = casilla.getAdyacentes();
-        Nodo aux = adyacentes.getpFirst();
+
+        // Recorrer los vecinos
+        Nodo aux = actual.getAdyacentes().getpFirst();
         while (aux != null) {
-            Casilla adyacente = (Casilla) aux.getDato();
-            if (!visitados.contains(adyacente)) {
-                dfsRecursivo(adyacente, visitados);
+            Casilla vecino = (Casilla) aux.getDato();
+            if (!visitados.buscar(vecino) && !vecino.isMina()) {
+                dfsRecursivo(vecino, visitados);
             }
             aux = aux.getPnext();
         }
     }
-    
+
+    /**
+     * Devuelve la lista de vértices recorridos por DFS.
+     * @return Lista de vértices en el recorrido.
+     */
+    public Lista getBarrido() {
+        return barrido;
+    }
 }
+    
+
