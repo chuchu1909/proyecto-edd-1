@@ -95,7 +95,8 @@ public class  BFS {
                 visitado[filaActual][columnaActual]=true;
                 /*Se obtiene las minas cercanas y se revela la casilla*/
                 int numMinasCercanas=casillaActual.cantidadMinasAdy();
-                casillaActual.Revelar();              
+                casillaActual.Revelar();   
+                
                 //Detiene la funci&oacuten si hay un pista
                 if(numMinasCercanas>0){
                     continue;
@@ -127,6 +128,9 @@ public class  BFS {
                                 int numMinascercanas= casillaVecina.cantidadMinasAdy();
                                 /*Se verifica que la casilla vecina no sea una mina
                                 y que la casilla vecina no tiene minas cerca*/
+                                casillaVecina.Revelar();
+                                /*Se revela la casilla vecina si no tienen minas 
+                                y no ha sido visitada*/
                                 if(!casillaVecina.isMina() && numMinascercanas==0){
                                     /*Se encola para ser procesada */
                                     cola.Encolar(casillaVecina);

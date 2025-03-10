@@ -170,7 +170,7 @@ public class Tablero extends javax.swing.JFrame {
     /*Se agrega un borde gris alrededor del panel de opci&oacuten */
     panelOpciones.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-    //getContentPane().add(panelOpciones);
+    
     
     
     //Opci&oacuten con la que empiezas
@@ -180,13 +180,13 @@ public class Tablero extends javax.swing.JFrame {
     boton_BFS.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Búsqueda BFS seleccionada");
+            System.out.println("B&uacutesqueda BFS seleccionada");
         }
     });
         boton_DFS.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
-            System.out.println("Búsqueda DFS seleccionada");
+            System.out.println("B&uacutesqueda DFS seleccionada");
        }
     });
     
@@ -289,7 +289,7 @@ public class Tablero extends javax.swing.JFrame {
 
         // Buscar la casilla en el grafo
         Casilla casilla = buscaMinaApp.getGrafo().buscar(nombreCasilla);
-
+        //System.setProperty("org.graphstream.ui","swing");
         if (casilla != null) {
             if (!bandera) {
                 if (casilla.isMina()) {
@@ -309,7 +309,8 @@ public class Tablero extends javax.swing.JFrame {
                       if(boton_DFS.isSelected()){
                             DFS dfs=new DFS(g);
                       /*Barre todos los 0 alrededor de la casilla con DFS*/
-                      dfs.realizarDFS(nombreCasilla);
+                      dfs.Buscar_Casilla(nombreCasilla);
+                      
                       }
                       /*Utiliza el m&eacutetodo para realizar la b&uacutesqueda
                       de forma BFS*/
@@ -317,8 +318,9 @@ public class Tablero extends javax.swing.JFrame {
                         BFS bfs=new BFS(g);
                         /*Barre todos los 0 alrededor de la casilla con BFS*/
                         bfs.Barrer(posFila, posColumna);
+                        
                       }
-                    actualizarTablero();     
+                    actualizarTablero();    
                 }
             } else {
                 if (buscaMinaApp.getGrafo().verticesMarcados() < this.numMinas) {

@@ -8,47 +8,85 @@ import ClasesPrincipales.Casilla;
 import EDD.Grafo;
 import EDD.Lista;
 import EDD.Nodo;
-import java.util.HashSet;
-import java.util.Set;
+
 
 /**
  *
  * @author Miguel
  */
 public class DFS {
-    private final Grafo grafo;
+    private Grafo grafo;
+    private Lista barrido; // Lista que mantiene el barrido
 
-
+    /*Contructor*/
     public DFS(Grafo grafo) {
-        this.grafo = grafo;
+        this.grafo = grafo;/*Grafo para representar el tablero*/
+        this.barrido = new Lista();/*Lista de casilla barridas*/
     }
 
-    public void realizarDFS(String nombreCasilla) {
-        Casilla inicio = grafo.buscar(nombreCasilla);
-        if (inicio == null) {
+    
+    
+    /*M&eacutetodo buscar casilla dado un inicio*/
+    public void Buscar_Casilla(String inicio) {
+        Casilla casillaInicio = grafo.buscar(inicio);
+        
+        if (casillaInicio == null) {
+            System.out.println("La casilla no existe.");
             return;
         }
 
-        Set<Casilla> visitados = new HashSet<>();
-        dfsRecursivo(inicio, visitados);
+        // Si el vértice es una mina o tiene minas adyacentes, no se hace barrido
+        if (casillaInicio.isMina() || (casillaInicio.cantidadMinasAdy()) > 0) {
+            System.out.println("La casilla tiene minas adyacentes, "
+                    + "no se puede barrer.");
+            return;
+        }
+
+        // Inicialización de DFS
+        Lista visitados = new Lista();
+        Barrer_DFS(casillaInicio, visitados);
+        
+        /*Imprime un mensaje para que el usuario sepa que se van a 
+        revelar las casillas*/
+        System.out.println("Casillas reveladas durante DFS:");
+        Nodo nodo = visitados.getpFirst();//Primer nodo de la lista visitados
+        //ciclo que recorre la lista
+        while (nodo != null) {
+            /*Obtiene la casilla  del nodo actual*/
+            Casilla casilla = (Casilla) nodo.getDato();
+            //Avanza al siguiente nodo de la lista
+            nodo = nodo.getPnext();
+        }
     }
 
-    private void dfsRecursivo(Casilla casilla, Set<Casilla> visitados) {
-        visitados.add(casilla);
-        casilla.Revelar();
+    /*M&eacutetodo recursivo de dfs*/
+    private void Barrer_DFS(Casilla actual, Lista visitados) {
+        if (actual == null) return;
         
-        int numMinasCercanas=casilla.cantidadMinasAdy();
-        if(numMinasCercanas>0 || casilla.isMina()){
-        return;
+        barrido.InsertarFinal(actual); // Guardamos el barrido
+        visitados.InsertarFinal(actual);/*Inserta las casilla actual a
+        la lista de vistados*/
+        actual.Revelar();/*Revela la casilla actual*/
+
+        // Si la casilla tiene minas adyacentes, detenemos el barrido
+        if (actual.cantidadMinasAdy() > 0) {
+            return;
         }
-        Lista adyacentes = casilla.getAdyacentes();
-        Nodo aux = adyacentes.getpFirst();
+
+        // Recorrer los vecinos
+        Nodo aux = actual.getAdyacentes().getpFirst();
         while (aux != null) {
-            Casilla adyacente = (Casilla) aux.getDato();
-            if (!visitados.contains(adyacente)) {
-                dfsRecursivo(adyacente, visitados);
+            Casilla casilla_Vecina = (Casilla) aux.getDato();
+            if (!visitados.buscar(casilla_Vecina) && !casilla_Vecina.isMina()) {
+                Barrer_DFS(casilla_Vecina, visitados);
             }
             aux = aux.getPnext();
         }
+    }
+
+    
+    /*Obtiene la lista de casillas barridas*/
+    public Lista getBarrido() {
+        return barrido;
     }
 }
