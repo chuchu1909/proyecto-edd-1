@@ -115,13 +115,13 @@ public class Inicio extends javax.swing.JFrame {
  */
     private void cargarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaActionPerformed
         buscaMinaApp.resetearMinas();
-        
+
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Abrir archivo CSV");
         fc.setFileFilter(new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv"));
         String ruta;
         String grafoStr = "";
-        
+
         int seleccion = fc.showOpenDialog(this);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivo = fc.getSelectedFile();
@@ -134,6 +134,18 @@ public class Inicio extends javax.swing.JFrame {
                     cadena.append((char) valor);
                 }
                 grafoStr = cadena.toString();
+
+                CargarCSV cargar = new CargarCSV();
+                Grafo grafoCargado = cargar.cargarCSV(grafoStr);
+
+                buscaMinaApp.setGrafo(grafoCargado);
+                buscaMinaApp.setN((int) Math.sqrt(grafoCargado.cantidadVertices()));
+                buscaMinaApp.setCantidadMinas(grafoCargado.cantidadMinas());
+
+                buscaMinaApp.conectar();
+
+                Tablero tablero = new Tablero();
+                this.dispose();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al leer el archivo CSV.", "Error", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
@@ -141,19 +153,6 @@ public class Inicio extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo.");
         }
-        
-        CargarCSV cargar = new CargarCSV();
-        Grafo grafoCargado = cargar.cargarCSV(grafoStr);
-       
-        
-        buscaMinaApp.setGrafo(grafoCargado);
-        buscaMinaApp.setN((int) Math.sqrt(grafoCargado.cantidadVertices()));
-        buscaMinaApp.setCantidadMinas(grafoCargado.cantidadMinas());
-        
-        buscaMinaApp.conectar();
-        
-        Tablero tablero = new Tablero();
-        this.dispose();
         
     
     

@@ -48,8 +48,8 @@ public class Tablero extends javax.swing.JFrame {
     boolean bandera = false;
     int numBanderasMinas = 0;
     private Lista jugadas = new Lista();
-//    private JRadioButton boton_DFS;
-//    private JRadioButton boton_BFS;
+    private JRadioButton boton_DFS;
+    private JRadioButton boton_BFS;
 
     private ButtonGroup tipoBusqueda;
 
@@ -131,7 +131,7 @@ public class Tablero extends javax.swing.JFrame {
 
         // Agregar botones extras
         agregarBotonesExtras();
-//        agregarBotonesDeBusqueda();
+        agregarBotonesDeBusqueda();
         revalidate();
         repaint();
 
@@ -145,58 +145,58 @@ public class Tablero extends javax.swing.JFrame {
 
     }
 
-    //Crear los botones de tipo de b&uacutesqueda
-//    private void agregarBotonesDeBusqueda() {
-//        /**/
-//        setLayout(new BorderLayout());
-//
-//        /*Se crea un panel para que permite posci&oacute 
-//     componentes dentro del panel*/
-//        JPanel panelPrincipal = new JPanel(null);
-//        getContentPane().add(panelPrincipal, BorderLayout.CENTER);
-//
-//        //Se crea el panel de b&uacutesqueda y se alinea a la izquierda
-//        JPanel panelOpciones = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-//        /*Se pone en el norte del tablero principal*/
-//        getContentPane().add(panelOpciones, BorderLayout.NORTH);
-//
-//        //Crea los botones para seleccionar la b&uacutesqueda 
-//        boton_DFS = new JRadioButton("DFS");
-//        boton_BFS = new JRadioButton("BFS");
-//        /*ButtonGroup() verifica que solo uno de ellos este activo*/
-//        tipoBusqueda = new ButtonGroup();
-//        tipoBusqueda.add(boton_BFS);
-//        tipoBusqueda.add(boton_DFS);
-//
-//        //agrega los botones al panel de opci&oacuten
-//        panelOpciones.add(new JLabel("Selecciona el tipo de Búsqueda"));
-//        panelOpciones.add(boton_DFS);
-//        panelOpciones.add(boton_BFS);
-//
-//        /*Tamaño para el panel de opci&oacuten*/
-//        panelOpciones.setPreferredSize(new Dimension(300, 60));
-//        /*Se agrega un borde gris alrededor del panel de opci&oacuten */
-//        panelOpciones.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-//
-//        //getContentPane().add(panelOpciones);
-//        //Opci&oacuten con la que empiezas
-//        boton_BFS.setSelected(true);
-//
-//        /*Cuando se presiona un boton imprime el tipo de b&uacutesqueda  */
-//        boton_BFS.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Búsqueda BFS seleccionada");
-//            }
-//        });
-//        boton_DFS.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Búsqueda DFS seleccionada");
-//            }
-//        });
-//
-//    }
+    /*Crear los botones de tipo de b&uacutesqueda*/
+    private void agregarBotonesDeBusqueda() {
+        /**/
+        setLayout(new BorderLayout());
+
+        /*Se crea un panel para que permite posci&oacute 
+     componentes dentro del panel*/
+        JPanel panelPrincipal = new JPanel(null);
+        getContentPane().add(panelPrincipal, BorderLayout.CENTER);
+
+        //Se crea el panel de b&uacutesqueda y se alinea a la izquierda
+        JPanel panelOpciones = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        /*Se pone en el norte del tablero principal*/
+        getContentPane().add(panelOpciones, BorderLayout.NORTH);
+
+        //Crea los botones para seleccionar la b&uacutesqueda 
+        boton_DFS = new JRadioButton("DFS");
+        boton_BFS = new JRadioButton("BFS");
+        /*ButtonGroup() verifica que solo uno de ellos este activo*/
+        tipoBusqueda = new ButtonGroup();
+        tipoBusqueda.add(boton_BFS);
+        tipoBusqueda.add(boton_DFS);
+
+        //agrega los botones al panel de opci&oacuten
+        panelOpciones.add(new JLabel("Selecciona el tipo de Búsqueda"));
+        panelOpciones.add(boton_DFS);
+        panelOpciones.add(boton_BFS);
+
+        /*Tamaño para el panel de opci&oacuten*/
+        panelOpciones.setPreferredSize(new Dimension(300, 60));
+        /*Se agrega un borde gris alrededor del panel de opci&oacuten */
+        panelOpciones.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        //getContentPane().add(panelOpciones);
+        //Opci&oacuten con la que empiezas
+        boton_BFS.setSelected(true);
+
+        /*Cuando se presiona un boton imprime el tipo de b&uacutesqueda  */
+        boton_BFS.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Búsqueda BFS seleccionada");
+            }
+        });
+        boton_DFS.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Búsqueda DFS seleccionada");
+            }
+        });
+
+    }
 
     /*Imprime la lista de jugadas y las enumera*/
     private void imprimirJugadas() {
@@ -344,16 +344,16 @@ public class Tablero extends javax.swing.JFrame {
                     Grafo g = buscaMinaApp.getGrafo();
                     /*Utiliza el m&eacutetodo para realizar la b&uacutesqueda
                       de forma DFS*/
-//                    if (boton_DFS.isSelected()) {
+                    if (boton_DFS.isSelected()) {
                         DFS dfs = new DFS(g);
                         /*Barre todos los 0 alrededor de la casilla con DFS*/
-                        dfs.ejecutarDFS(nombreCasilla);
-//                    } /*Utiliza el m&eacutetodo para realizar la b&uacutesqueda
+                        dfs.Buscar_Casilla(nombreCasilla);
+                    } /*Utiliza el m&eacutetodo para realizar la b&uacutesqueda
 //                      de forma BFS*/ else if (boton_BFS.isSelected()) {
-//                        BFS bfs = new BFS(g);
+                        BFS bfs = new BFS(g);
 //                        /*Barre todos los 0 alrededor de la casilla con BFS*/
 //                        bfs.Barrer(posFila, posColumna);
-//                    }
+                    }
                     actualizarTablero();
                 }
             } else {

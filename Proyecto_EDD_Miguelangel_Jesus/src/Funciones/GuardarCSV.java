@@ -26,6 +26,7 @@ public class GuardarCSV {
  * @param botonesTablero Matriz de botones que representa el tablero del juego.
  * @param archivo Archivo en el que se guardará la partida.
  */
+    
     public static void guardarPartida(JButton[][] botonesTablero, File archivo) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
             // Escribir las cabeceras del archivo CSV
